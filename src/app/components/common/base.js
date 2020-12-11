@@ -23,7 +23,7 @@ const data = {
         {
             id: 2,
             title: "TITLE: OPONY",
-            image: [opony, opony],
+            image: [opony, opony, jacket, krawat, jacket, opony, opony],
             text: "OPIS: stare opony",
             price: "150",
             nick: "monica",
@@ -87,10 +87,10 @@ export function deleteProduct(id, props = null, redirect = null) {
     return newData;
 }
 
-export function addBoard(item, props = null, redirect = null) {
+export function addBoard(item, props = null) {
     item.id = data.board.length;
     data.board.push(item);
-    if (props) return props.history.push(redirect);
+    if (props) return props.history.push("/board");
     return data.board;
 }
 

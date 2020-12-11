@@ -10,16 +10,15 @@ const AddImages = ({
         <>
             {adder && image && image.length < 5 && (
                 <>
-                    <label for="picture" className="addBoard__addPicture">
+                    <label htmlFor="picture" className="addBoard__addPicture">
                         <ImageAdd />
                     </label>
 
                     <input
                         className="addBoard__input"
                         src="https://raw.githubusercontent.com/mdn/learning-area/master/html/forms/image-type-example/login.png"
-                        // className="inputTest"
                         type="file"
-                        accept="image/x-png,image/jpeg,image    "
+                        accept="image/x-png,image/jpeg,image"
                         id="picture"
                         label="picture"
                         onChange={(event) => addImage(event)}

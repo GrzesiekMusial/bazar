@@ -3,9 +3,20 @@ import React, { useEffect, useState } from "react";
 import * as images from "../../methods/image.js";
 
 import AddImages from "./common/addImages";
-import AddTextBox from "./common/addTextBox";
 
 import * as base from "./common/base";
+
+import { Formik } from "formik";
+import * as Yup from "yup";
+
+import AddTextBox from "./common/form/addTextBox";
+import AddInputBox from "./common/form/addInputBox.jsx";
+import AddSubmitButton from "./common/form/submitButton.jsx";
+
+const validationSchema = Yup.object().shape({
+    title: Yup.string().required().min(3).max(120),
+    text: Yup.string().max(6000),
+});
 
 const AddBoard = (props) => {
     useEffect(() => {
@@ -13,15 +24,10 @@ const AddBoard = (props) => {
     }, []);
 
     const [image, setImage] = useState([]);
-    const [text, setText] = useState(null);
-    const [title, setTitle] = useState(null);
 
-    const handleSave = () => {
-        base.addBoard(
-            { image: image, text: text, title: title },
-            props,
-            "/board"
-        );
+    const handleSave = (item, image) => {
+        item.image = image;
+        base.addBoard(item, props);
     };
 
     return (
@@ -38,16 +44,32 @@ const AddBoard = (props) => {
                         }
                     />
 
-                    <AddTextBox
-                        changeText={(t) => setText(t)}
-                        changeTitle={(t) => setTitle(t)}
-                    />
-
-                    <div className="addBoard__buttons">
-                        <button className="actionBtn" onClick={handleSave}>
-                            OPUBLIKUJ
-                        </button>
-                    </div>
+                    <Formik
+                        initialValues={{ text: "", title: "" }}
+                        onSubmit={(values) => handleSave(values, image)}
+                        validationSchema={validationSchema}
+                    >
+                        {({ handleSubmit }) => (
+                            <>
+                                <AddInputBox
+                                    className="addBoard__title"
+                                    name="title"
+                                    placeholder="Nazwa"
+                                />
+                                <AddTextBox
+                                    className="addBoard__text"
+                                    name="text"
+                                    placeholder="Opis..."
+                                />
+                                <div className="addBoard__buttons">
+                                    <AddSubmitButton
+                                        className="actionBtn"
+                                        title="OPUBLIKUJ"
+                                    />
+                                </div>
+                            </>
+                        )}
+                    </Formik>
                 </div>
             </div>
         </div>

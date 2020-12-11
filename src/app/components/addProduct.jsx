@@ -1,17 +1,32 @@
 import React, { useState, useEffect } from "react";
 
 import AddImages from "./common/addImages";
-import AddTextBox from "./common/addTextBox";
 
 import * as images from "../../methods/image.js";
 import * as base from "./common/base";
 
+import { Formik } from "formik";
+import * as Yup from "yup";
+
+import AddTextBox from "./common/form/addTextBox";
+import AddInputBox from "./common/form/addInputBox";
+import AddSelectBox from "./common/form/addSelectBox";
+import AddSubmitButton from "./common/form/submitButton";
+
+const validationSchema = Yup.object().shape({
+    title: Yup.string()
+        .required("Nazwa jest wymagana.")
+        .min(3)
+        .typeError("Nieprawidłowa wartość.")
+        .max(120)
+        .label("Nazwa"),
+    text: Yup.string().max(6000),
+    price: Yup.number().typeError("Nieprawidłowa wartość.").max(9000000),
+    category: Yup.string().required().max(20),
+});
+
 const AddProduct = (props) => {
     const [image, setImage] = useState([]);
-    const [price, setPrice] = useState(null);
-    const [text, setText] = useState(null);
-    const [title, setTitle] = useState(null);
-    const [category, setCategory] = useState(null);
 
     const categories = ["INNE", "SPIŻARNIA", "MODA", "ELEKTRONIKA", "DOMOWE"];
 
@@ -19,16 +34,9 @@ const AddProduct = (props) => {
         props.title("sprzedaj");
     }, []);
 
-    const accept = () => {
-        const data = {
-            image: image,
-            price: price,
-            text: text,
-            title: title,
-            category: category,
-        };
-
-        base.addProduct(data, props);
+    const handleSave = (item, image) => {
+        item.image = image;
+        base.addProduct(item, props);
     };
 
     return (
@@ -45,50 +53,60 @@ const AddProduct = (props) => {
                         }
                     />
 
-                    <AddTextBox
-                        changeText={(t) => setText(t)}
-                        changeTitle={(t) => setTitle(t)}
-                    />
+                    <Formik
+                        initialValues={{
+                            text: "",
+                            title: "",
+                            price: "",
+                            category: "INNE",
+                        }}
+                        onSubmit={(values) => handleSave(values, image)}
+                        validationSchema={validationSchema}
+                    >
+                        {({ handleSubmit }) => (
+                            <>
+                                <AddInputBox
+                                    className="addBoard__title"
+                                    name="title"
+                                    placeholder="Nazwa"
+                                />
 
-                    <div className="addBoard__details">
-                        <div>
-                            <label for="price">CENA</label>
-                            <input
-                                placeholder="podaj cenę"
-                                onChange={(e) =>
-                                    console.log(setPrice(e.currentTarget.value))
-                                }
-                                id="price"
-                                className="addBoard__details--price"
-                            ></input>
-                        </div>
+                                <AddTextBox
+                                    className="addBoard__text"
+                                    name="text"
+                                    placeholder="Opis..."
+                                />
 
-                        <div>
-                            <label for="category">KATEGORIA</label>
-                            <select
-                                defaultChecked="INNE"
-                                onChange={(e) =>
-                                    console.log(
-                                        setCategory(e.currentTarget.value)
-                                    )
-                                }
-                                class="addBoard__details--category"
-                                id="category"
-                            >
-                                {categories.map((cat, index) => (
-                                    <option selected={index === 0}>
-                                        {cat}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                    </div>
+                                <div className="addBoard__details">
+                                    <div>
+                                        <AddInputBox
+                                            label="CENA"
+                                            placeholder="cena"
+                                            name="price"
+                                            id="price"
+                                            className="addBoard__details--price"
+                                        />
+                                    </div>
 
-                    <div className="addBoard__buttons">
-                        <button className="actionBtn" onClick={accept}>
-                            OPUBLIKUJ
-                        </button>
-                    </div>
+                                    <div>
+                                        <AddSelectBox
+                                            label="KATEGORIA"
+                                            arr={categories}
+                                            id="category"
+                                            name="categories"
+                                            className="addBoard__details--category"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="addBoard__buttons">
+                                    <AddSubmitButton
+                                        className="actionBtn"
+                                        title="OPUBLIKUJ"
+                                    />
+                                </div>
+                            </>
+                        )}
+                    </Formik>
                 </div>
             </div>
         </div>
