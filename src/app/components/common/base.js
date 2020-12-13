@@ -20,6 +20,7 @@ const data = {
             image: [krawat],
             text: "oddam za darmo",
             nick: "monica",
+            price: 200,
             category: "MODA",
         },
         {
@@ -36,7 +37,6 @@ const data = {
             id: 3,
             title: "TITLE: OPONY",
             text: "OPIS: stare opony",
-            price: "150",
             nick: "monica",
             data: "19:30",
             category: "INNE",

@@ -109,22 +109,20 @@ a {
         }
 
         &--price {
-            position: relative;
-            bottom: 64px;
-            right: 4px;
             width: 100%;
             display: flex;
             justify-content: flex-end;
-
-            color: var(--backgroundLight);
-            font-weight: 500;
+            font-weight: bold;
+            color: var(--special);
 
             z-index: 5;
 
             & * {
-                background-color: rgba(0, 0, 0, 0.5);
+                margin: 2px;
+                border: 2px solid var(--red);
                 border-radius: 5px;
-                padding: 5px;
+                padding-left: 10px;
+                padding-right: 10px;
                 font-size: 20px;
             }
         }
