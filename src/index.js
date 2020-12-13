@@ -1,7 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import "./index.scss";
+
+import "./scss/index.scss";
+import "./scss/swiper.scss";
+import "./scss/multipleImages.scss";
+
 // import App from "./App";
 import App from "./App";
 

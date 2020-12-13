@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import * as images from "../../methods/image.js";
-
-import AddImages from "./common/addImages";
-
 import * as base from "./common/base";
 
 import { Formik } from "formik";
@@ -12,6 +8,7 @@ import * as Yup from "yup";
 import AddTextBox from "./common/form/addTextBox";
 import AddInputBox from "./common/form/addInputBox.jsx";
 import AddSubmitButton from "./common/form/submitButton.jsx";
+import MultiImageInput from "react-multiple-image-input";
 
 const validationSchema = Yup.object().shape({
     title: Yup.string().required().min(3).max(120),
@@ -34,15 +31,22 @@ const AddBoard = (props) => {
         <div className="screen">
             <div className="screen__container">
                 <div className="addBoard">
-                    <AddImages
-                        image={image}
-                        addImage={(i) =>
-                            setImage((arr) => [...arr, images.add(i)])
-                        }
-                        handleClick={(i, index, arr) =>
-                            setImage((arr) => images.wipe(i, arr))
-                        }
-                    />
+                    <div className="multipleImages">
+                        <MultiImageInput
+                            allowCrop={false}
+                            max={6}
+                            images={image}
+                            setImages={setImage}
+                            theme={{
+                                margin: "0",
+                                background: "unset",
+                                outlineColor: "#262a33",
+                                textColor: "rgba(255,255,255,0.6)",
+                                buttonColor: "#ff0e1f",
+                                modalColor: "#ffffff",
+                            }}
+                        />
+                    </div>
 
                     <Formik
                         initialValues={{ text: "", title: "" }}

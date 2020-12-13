@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import ReactImageAppear from "react-image-appear";
 
 import * as base from "./common/base";
+import AddInputBox from "./common/form/addInputBox";
 
 function ProductCards(props) {
     const [data, setData] = useState(base.loadProducts());

@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 
-import AddImages from "./common/addImages";
-
 import * as base from "./common/base";
+import ImageSlider from "./common/imageSlider";
 
 const BoardCards = (props) => {
     useEffect(() => {
@@ -42,15 +41,16 @@ const BoardCards = (props) => {
                         </div>
 
                         <div className="board__content">
-                            {card.image && (
-                                <AddImages
-                                    adder={false}
-                                    image={card.image}
-                                    handleClick={(i, index, arr, e) =>
-                                        props.renderImage(arr, index, e)
-                                    }
-                                />
-                            )}
+                            <div>
+                                {card.image && (
+                                    <ImageSlider
+                                        images={card.image}
+                                        handleClick={(i, index, arr) =>
+                                            props.renderImage(arr, index)
+                                        }
+                                    />
+                                )}
+                            </div>
 
                             {card.text && <p>{card.text}</p>}
                             <div className="board__delete">

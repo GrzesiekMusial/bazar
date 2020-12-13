@@ -25,7 +25,6 @@ const AddInputBox = ({
                 onBlur={() => setFieldTouched(name)}
                 {...otherProps}
             ></input>
-
             <ErrorMessage error={errors[name]} visible={touched[name]} />
         </>
     );

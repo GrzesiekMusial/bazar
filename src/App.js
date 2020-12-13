@@ -18,6 +18,7 @@ import { TiPinOutline as Board } from "react-icons/ti";
 import { GrBookmark as Priv } from "react-icons/gr";
 import { BiUser as User } from "react-icons/bi";
 import { CgAddR as AddNew } from "react-icons/cg";
+import PaginationDynamicBullet from "./app/components/home";
 
 class App extends Component {
     state = {
@@ -125,6 +126,7 @@ class App extends Component {
                     {/* <Route path="/not-found" component={NotFound} /> */}
                     {/* <Redirect to="/not-found" /> */}
                 </Switch>
+
                 <Buttons buttons={this.state.buttons} />
 
                 {isOpen && (

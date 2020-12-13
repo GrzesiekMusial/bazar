@@ -1,46 +1,34 @@
-import { BiImageAdd as ImageAdd } from "react-icons/bi";
+import React, { useState } from "react";
+import MultiImageInput from "react-multiple-image-input";
 
-const AddImages = ({
-    image,
-    addImage = false,
-    handleClick = false,
-    adder = true,
-}) => {
+const AddImages = (loco) => {
+    const [images, setImages] = useState({});
+
+    console.log(loco);
+
+    const test = (img) => {
+        setImages(img);
+        console.log(img);
+    };
+
     return (
         <>
-            {adder && image && image.length < 5 && (
-                <>
-                    <label htmlFor="picture" className="addBoard__addPicture">
-                        <ImageAdd />
-                    </label>
-
-                    <input
-                        className="addBoard__input"
-                        src="https://raw.githubusercontent.com/mdn/learning-area/master/html/forms/image-type-example/login.png"
-                        type="file"
-                        accept="image/x-png,image/jpeg,image"
-                        id="picture"
-                        label="picture"
-                        onChange={(event) => addImage(event)}
-                    />
-                </>
-            )}
-            {image &&
-                image.length > 0 &&
-                image
-                    .slice(0)
-                    .reverse()
-                    .map((i, index, arr) => (
-                        <img
-                            animation="fadeIn"
-                            animationDuration=".2s"
-                            id={i}
-                            src={i}
-                            alt={i}
-                            className="addBoard__picture"
-                            onClick={() => handleClick(i, index, arr)}
-                        />
-                    ))}
+            <div className="multipleImages">
+                <MultiImageInput
+                    allowCrop={false}
+                    max={6}
+                    images={images}
+                    setImages={test}
+                    theme={{
+                        margin: "0",
+                        background: "unset",
+                        outlineColor: "#262a33",
+                        textColor: "rgba(255,255,255,0.6)",
+                        buttonColor: "#ff0e1f",
+                        modalColor: "#ffffff",
+                    }}
+                />
+            </div>
         </>
     );
 };

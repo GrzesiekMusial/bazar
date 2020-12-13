@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 
-import AddImages from "./common/addImages";
-
 import * as base from "./common/base";
+import ImageSlider from "./common/imageSlider";
 
 function ProductDetails(props) {
     useEffect(() => {
@@ -22,9 +21,8 @@ function ProductDetails(props) {
             <div className="screen__container">
                 <div className="productDetails__image">
                     {card.image && (
-                        <AddImages
-                            adder={false}
-                            image={card.image}
+                        <ImageSlider
+                            images={card.image}
                             handleClick={(i, index, arr) =>
                                 props.renderImage(arr, index)
                             }
