@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 
 import * as base from "./common/base";
 import ImageSlider from "./common/imageSlider";
+import SearchBox from "./common/searchBox";
 
 const BoardCards = (props) => {
     useEffect(() => {
-        console.log(props.data);
         props.title("tablica");
     }, []);
 
-    const [cards, setCards] = useState(base.loadBoard());
+    const [cards, setCards] = useState(base.loadBoards());
 
     function expand(e) {
         while (!e.target.classList.contains("board"))
@@ -28,9 +28,33 @@ const BoardCards = (props) => {
         setCards(newData);
     };
 
+    const handleSearch = (search) => {
+        search === ""
+            ? props.title(`tablica`)
+            : props.title(`tablica | ~ ${search.toLowerCase()}`);
+
+        setCards([]);
+
+        const loadData = base.loadBoards();
+
+        for (let i = 0; i < loadData.length; i++) {
+            if (
+                loadData[i].title.toUpperCase().includes(search.toUpperCase())
+            ) {
+                setCards((arr) => [...arr, loadData[i]]);
+            } else if (
+                loadData[i].text.toUpperCase().includes(search.toUpperCase())
+            ) {
+                setCards((arr) => [...arr, loadData[i]]);
+            }
+        }
+    };
+
     return (
         <div className="screen">
             <div className="screen__container">
+                <SearchBox filtr={false} handleSearch={handleSearch} />
+
                 {cards.map((card) => (
                     <div className="board">
                         <div

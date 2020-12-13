@@ -44,10 +44,10 @@ a {
 
         & * {
             padding: 10px;
-            font-size: 20px;
+            font-size: 18px;
             padding: 0;
-
-            font-size: 20px;
+            max-width: 80%;
+            text-align: center;
             margin: 0;
             display: -webkit-box;
             -webkit-line-clamp: 1;
@@ -449,4 +449,49 @@ a {
 
 .error {
     color: red;
+}
+
+.searchBox {
+    height: 0px !important;
+    border: none;
+    padding: unset !important;
+    padding-left: 5px !important;
+    position: fixed;
+    z-index: 7;
+    max-width: 600px;
+    -webkit-appearance: none;
+    top: 5px;
+    width: 95%;
+    transition: height 0.5s;
+
+    font-size: 18px;
+    background-color: whitesmoke;
+
+    &:focus {
+        height: 25px !important;
+    }
+}
+
+.icon {
+    position: fixed;
+    top: 0;
+    z-index: 6;
+    font-size: 23px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    &:active {
+        color: var(--backgroundLight);
+        background-color: var(--backgroundLight);
+    }
+
+    &--search {
+        right: 5px;
+        padding-left: 50px;
+    }
+    &--category {
+        padding-right: 50px;
+
+        left: 5px;
+    }
 }

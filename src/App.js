@@ -2,6 +2,7 @@ import React, { Component, useEffect } from "react";
 import ProductDetails from "./app/components/productDetails";
 import ProductCards from "./app/components/productCards";
 import BoardCards from "./app/components/boardCards";
+import Test from "./app/components/home";
 import AddProduct from "./app/components/addProduct";
 // import AddProduct from "./app/components/addProductt";
 import AddBoard from "./app/components/addBoard";
@@ -127,6 +128,7 @@ class App extends Component {
                     {/* <Redirect to="/not-found" /> */}
                 </Switch>
 
+                <Test />
                 <Buttons buttons={this.state.buttons} />
 
                 {isOpen && (

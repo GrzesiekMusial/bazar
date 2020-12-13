@@ -12,6 +12,7 @@ const data = {
                 "Ta kurtka może być Twoja!!!!! ma świetne kieszenie każdy się w nią wzmieści",
             nick: "monica",
             price: 200,
+            category: "MODA",
         },
         {
             id: 1,
@@ -19,6 +20,7 @@ const data = {
             image: [krawat],
             text: "oddam za darmo",
             nick: "monica",
+            category: "MODA",
         },
         {
             id: 2,
@@ -28,6 +30,7 @@ const data = {
             price: "150",
             nick: "monica",
             data: "19:30",
+            category: "INNE",
         },
         {
             id: 3,
@@ -36,6 +39,7 @@ const data = {
             price: "150",
             nick: "monica",
             data: "19:30",
+            category: "INNE",
         },
     ],
     board: [
@@ -63,14 +67,19 @@ const data = {
             text: "dfsfs",
         },
     ],
+    categories: ["INNE", "SPIŻARNIA", "MODA", "ELEKTRONIKA", "DOMOWE"],
 };
 
 export function loadProducts() {
     return data.products;
 }
 
-export function loadBoard() {
+export function loadBoards() {
     return data.board;
+}
+
+export function loadCategories() {
+    return data.categories;
 }
 
 export function deleteBoard(id, props = null, redirect = null) {
