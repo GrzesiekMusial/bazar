@@ -11,7 +11,6 @@
         align-items: center !important;
         justify-content: center !important;
         border: none !important;
-        // margin-right: 0px !important;
         background-color: var(--backgroundLight) !important;
         margin: 1px !important;
     }
@@ -42,28 +41,26 @@
     }
 
     & div {
-        & div:last-child {
-            & * {
-                margin: 10px;
-                background-color: green;
-                flex-direction: column !important;
-                justify-content: center !important;
-            }
-        }
-
         & div {
+            max-width: 44vw;
+
             & svg:first-of-type {
                 visibility: hidden;
                 position: absolute;
             }
         }
-    }
 
-    & div {
         & div:last-child {
             & svg {
                 visibility: visible;
                 position: relative;
+            }
+
+            & * {
+                margin: 10px;
+                background-color: green;
+                flex-direction: column !important;
+                justify-content: center !important;
             }
         }
     }
