@@ -27,6 +27,8 @@ function ProductCards(props) {
 
         const loadData = base.loadProducts();
 
+        if (search === "") return setData(loadData);
+
         for (let i = 0; i < loadData.length; i++) {
             if (
                 loadData[i].title.toUpperCase().includes(search.toUpperCase())
@@ -41,13 +43,15 @@ function ProductCards(props) {
     };
 
     const handleCategorySearch = (search) => {
-        search === "WSZYSTKIE"
+        search === ""
             ? props.title(`ogłoszenia`)
             : props.title(`ogłoszenia | ${search.toLowerCase()}`);
 
         setData([]);
 
         const loadData = base.loadProducts();
+
+        if (search === "WSZYSTKIE") return setData(loadData);
 
         for (let i = 0; i < loadData.length; i++) {
             if (loadData[i].category.toUpperCase() === search.toUpperCase()) {

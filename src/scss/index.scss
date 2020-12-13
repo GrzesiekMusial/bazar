@@ -114,13 +114,14 @@ a {
             justify-content: flex-end;
             font-weight: bold;
             color: var(--special);
+            background-color: var(--backgroundDark);
 
             z-index: 5;
 
+            border-bottom: 0.1px solid var(--special);
+
             & * {
                 margin: 2px;
-                border: 2px solid var(--red);
-                border-radius: 5px;
                 padding-left: 10px;
                 padding-right: 10px;
                 font-size: 20px;

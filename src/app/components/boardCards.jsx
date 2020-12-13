@@ -9,7 +9,7 @@ const BoardCards = (props) => {
         props.title("tablica");
     }, []);
 
-    const [cards, setCards] = useState(base.loadBoards());
+    const [data, setData] = useState(base.loadBoards());
 
     function expand(e) {
         while (!e.target.classList.contains("board"))
@@ -25,7 +25,7 @@ const BoardCards = (props) => {
 
     const handleDelete = (id) => {
         const newData = base.deleteBoard(id);
-        setCards(newData);
+        setData(newData);
     };
 
     const handleSearch = (search) => {
@@ -33,19 +33,21 @@ const BoardCards = (props) => {
             ? props.title(`tablica`)
             : props.title(`tablica | ~ ${search.toLowerCase()}`);
 
-        setCards([]);
+        setData([]);
 
         const loadData = base.loadBoards();
+
+        if (search === "") return setData(loadData);
 
         for (let i = 0; i < loadData.length; i++) {
             if (
                 loadData[i].title.toUpperCase().includes(search.toUpperCase())
             ) {
-                setCards((arr) => [...arr, loadData[i]]);
+                setData((arr) => [...arr, loadData[i]]);
             } else if (
                 loadData[i].text.toUpperCase().includes(search.toUpperCase())
             ) {
-                setCards((arr) => [...arr, loadData[i]]);
+                setData((arr) => [...arr, loadData[i]]);
             }
         }
     };
@@ -55,7 +57,7 @@ const BoardCards = (props) => {
             <div className="screen__container">
                 <SearchBox filtr={false} handleSearch={handleSearch} />
 
-                {cards.map((card) => (
+                {data.map((card) => (
                     <div className="board">
                         <div
                             className="board__title"
