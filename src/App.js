@@ -20,6 +20,8 @@ import { GrBookmark as Priv } from "react-icons/gr";
 import { BiUser as User } from "react-icons/bi";
 import { CgAddR as AddNew } from "react-icons/cg";
 import PaginationDynamicBullet from "./app/components/home";
+import Login from "./app/components/login";
+import Register from "./app/components/register";
 
 class App extends Component {
     state = {
@@ -32,7 +34,7 @@ class App extends Component {
             { name: <Board />, ref: "/board" },
             { name: <Bazar />, ref: "/bazar" },
             { name: <AddNew />, ref: "/add" },
-            { name: <User />, ref: "/bazar" },
+            { name: <User />, ref: "/login" },
         ],
     };
 
@@ -125,11 +127,18 @@ class App extends Component {
                         )}
                     />
 
+                    <Route
+                        path="/login"
+                        render={(props) => (
+                            <Register title={this.renderTitle} />
+                        )}
+                    />
+
                     {/* <Route path="/bazar" component={ProductCards} /> */}
                     {/* <Route path="/board" component={BoardCards} /> */}
                     {/* <Route path="/board/new" component={AddBoard} /> */}
                     {/* <Route path="/not-found" component={NotFound} /> */}
-                    {/* <Redirect to="/not-found" /> */}
+                    <Redirect to="/bazar" />
                 </Switch>
 
                 <Test />
