@@ -19,7 +19,12 @@ const validationSchema = Yup.object().shape({
         .max(120)
         .label("Nazwa"),
     text: Yup.string().max(6000),
-    price: Yup.number().typeError("Nieprawidłowa wartość.").max(9000000),
+    price: Yup.number()
+        .typeError("Nieprawidłowa wartość.")
+        .max(9000000)
+        .test("is-decimal", "invalid decimal", (value) =>
+            (value + "").match(/^\d*\.{1}\d{2}/)
+        ),
     category: Yup.string().required().max(20),
 });
 
@@ -33,6 +38,7 @@ const AddProduct = (props) => {
     }, []);
 
     const handleSave = (item, image) => {
+        item.price = parseFloat(item.price.match(/^\d*\.{1}\d{2}/)[0]);
         item.image = image;
         base.addProduct(item, props);
     };
