@@ -25,8 +25,19 @@
     }
 }
 
+.swiper-pagination-bullets {
+    bottom: 0px !important;
+}
+
 .swiper-pagination-bullet {
+    width: 6px !important;
+    height: 6px !important;
+    border: 2px solid var(--backgroundLight);
+
     &-active {
+        border: unset;
+        width: 8px !important;
+        height: 8px !important;
         background-color: var(--special) !important;
     }
 }

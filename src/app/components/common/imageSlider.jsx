@@ -4,6 +4,7 @@ import React from "react";
 import SwiperCore, { Navigation, Pagination } from "swiper";
 
 import "swiper/swiper-bundle.css";
+import ReactImageAppear from "react-image-appear";
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -30,10 +31,13 @@ const ImageSlider = ({ images, handleClick = false }) => {
         <Swiper {...params}>
             {imagesList.map((img, index, arr) => (
                 <div>
-                    <img
+                    <ReactImageAppear
+                        animation="zoomIn"
+                        animationDuration=".1s"
+                        className="cards__card__image"
                         onClick={() => handleClick(img, index, arr)}
                         src={img}
-                    ></img>
+                    />
                 </div>
             ))}
         </Swiper>

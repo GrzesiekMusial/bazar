@@ -8,7 +8,7 @@ const dataFilter = (filterData, category = "WSZYSTKIE", text = "") => {
                 card.text.toUpperCase().includes(text.toUpperCase()))
     );
 
-    return result;
+    return result.reverse();
 };
 
 export { dataFilter };
