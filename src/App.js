@@ -115,9 +115,13 @@ class App extends Component {
                     />
 
                     <Route
-                        path="/bazar"
-                        render={(props) => (
-                            <ProductCards title={this.renderTitle} {...props} />
+                        path="/bazar/:category?/:text?"
+                        render={(props, match) => (
+                            <ProductCards
+                                title={this.renderTitle}
+                                {...props}
+                                {...match}
+                            />
                         )}
                     />
 

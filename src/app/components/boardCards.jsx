@@ -4,12 +4,21 @@ import * as base from "./common/base";
 import ImageSlider from "./common/imageSlider";
 import SearchBox from "./common/searchBox";
 
-const BoardCards = (props) => {
-    useEffect(() => {
-        props.title("tablica");
-    }, []);
+import { dataFilter } from "../../methods/filter";
 
+const BoardCards = (props) => {
     const [data, setData] = useState(base.loadBoards());
+    const [category, setCategory] = useState("WSZYSTKIE");
+    const [text, setText] = useState("");
+
+    useEffect(() => {
+        props.title(
+            `tablica ${
+                category === "WSZYSTKIE" ? "" : "| " + category.toLowerCase()
+            } ${text === "" ? "" : " ~ " + text.toLowerCase()}`
+        );
+        console.log(props.match);
+    }, [category, text]);
 
     function expand(e) {
         while (!e.target.classList.contains("board"))
@@ -28,36 +37,16 @@ const BoardCards = (props) => {
         setData(newData);
     };
 
-    const handleSearch = (search) => {
-        search === ""
-            ? props.title(`tablica`)
-            : props.title(`tablica | ~ ${search.toLowerCase()}`);
-
-        setData([]);
-
-        const loadData = base.loadBoards();
-
-        if (search === "") return setData(loadData);
-
-        for (let i = 0; i < loadData.length; i++) {
-            if (
-                loadData[i].title.toUpperCase().includes(search.toUpperCase())
-            ) {
-                setData((arr) => [...arr, loadData[i]]);
-            } else if (
-                loadData[i].text.toUpperCase().includes(search.toUpperCase())
-            ) {
-                setData((arr) => [...arr, loadData[i]]);
-            }
-        }
-    };
-
     return (
         <div className="screen">
             <div className="screen__container">
-                <SearchBox filtr={false} handleSearch={handleSearch} />
+                <SearchBox
+                    filtr={false}
+                    handleSearch={setText}
+                    status={{ category: category, text: text }}
+                />
 
-                {data.map((card) => (
+                {dataFilter(data, category, text).map((card) => (
                     <div className="board">
                         <div
                             className="board__title"
@@ -79,6 +68,7 @@ const BoardCards = (props) => {
                             </div>
 
                             {card.text && <p>{card.text}</p>}
+
                             <div className="board__delete">
                                 <button
                                     className="actionBtn"

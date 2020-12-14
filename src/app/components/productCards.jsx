@@ -5,104 +5,46 @@ import ReactImageAppear from "react-image-appear";
 
 import * as base from "./common/base";
 
+import { dataFilter } from "../../methods/filter";
+
 import { BsFilterLeft } from "react-icons/bs";
 import { BiSearchAlt } from "react-icons/bi";
 
 import "react-dropdown/style.css";
+import SearchBox from "./common/searchBox";
 
 function ProductCards(props) {
     const [data, setData] = useState(base.loadProducts());
     const [categories, setcategories] = useState(base.loadCategories());
+    const [category, setCategory] = useState("WSZYSTKIE");
+    const [text, setText] = useState("");
 
     useEffect(() => {
-        props.title("ogłoszenia");
-    }, []);
-
-    const handleSearch = (search) => {
-        search === ""
-            ? props.title(`ogłoszenia`)
-            : props.title(`ogłoszenia | ~ ${search.toLowerCase()}`);
-
-        setData([]);
-
-        const loadData = base.loadProducts();
-
-        if (search === "") return setData(loadData);
-
-        for (let i = 0; i < loadData.length; i++) {
-            if (
-                loadData[i].title.toUpperCase().includes(search.toUpperCase())
-            ) {
-                setData((arr) => [...arr, loadData[i]]);
-            } else if (
-                loadData[i].text.toUpperCase().includes(search.toUpperCase())
-            ) {
-                setData((arr) => [...arr, loadData[i]]);
-            }
-        }
-    };
-
-    const handleCategorySearch = (search) => {
-        search === ""
-            ? props.title(`ogłoszenia`)
-            : props.title(`ogłoszenia | ${search.toLowerCase()}`);
-
-        setData([]);
-
-        const loadData = base.loadProducts();
-
-        if (search === "WSZYSTKIE") return setData(loadData);
-
-        for (let i = 0; i < loadData.length; i++) {
-            if (loadData[i].category.toUpperCase() === search.toUpperCase()) {
-                setData((arr) => [...arr, loadData[i]]);
-            }
-        }
-    };
-
-    const searchOpen = () => {
-        console.log("focused");
-        document.getElementById("searchBox").focus();
-    };
-
-    const CategoryOpen = () => {
-        console.log("focused");
-        document.getElementById("categoryBox").focus();
-    };
+        props.title(
+            `ogłoszenia ${
+                category === "WSZYSTKIE" ? "" : "| " + category.toLowerCase()
+            } ${text === "" ? "" : " ~ " + text.toLowerCase()}`
+        );
+        console.log(props.match);
+    }, [category, text]);
 
     return (
         <div className="screen">
-            <BsFilterLeft
-                className="icon icon--category"
-                onClick={CategoryOpen}
+            <SearchBox
+                status={{ category: category, text: text }}
+                categories={categories}
+                handleCategorySearch={setCategory}
+                handleSearch={setText}
             />
-            <BiSearchAlt className="icon icon--search" onClick={searchOpen} />
-
-            <select
-                className="searchBox"
-                id="categoryBox"
-                onChange={(e) => handleCategorySearch(e.currentTarget.value)}
-                defaultValue={"WSZYSTKIE"}
-            >
-                {["WSZYSTKIE", ...categories].map((cat) => (
-                    <option value={cat}>{cat}</option>
-                ))}
-            </select>
-
-            <input
-                id="searchBox"
-                className="searchBox"
-                onChange={(e) => handleSearch(e.currentTarget.value)}
-            ></input>
 
             <div className="cards">
-                {data.map((card) => (
+                {dataFilter(data, category, text).map((card) => (
                     <NavLink to={"/bazar/product/" + card.id}>
                         <div className="cards__card">
                             {card.image && (
                                 <ReactImageAppear
-                                    animation="fadeIn"
-                                    animationDuration=".2s"
+                                    animation="zoomIn"
+                                    animationDuration=".1s"
                                     className="cards__card__image"
                                     src={card.image[0]} // use normal <img> attributes as props
                                 />
