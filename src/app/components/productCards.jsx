@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
-import ReactImageAppear from "react-image-appear";
-
 import * as base from "./common/base";
+import Img from "./common/imageLoader";
 
 import { dataFilter } from "../../methods/filter";
 
-import { BsFilterLeft } from "react-icons/bs";
-import { BiSearchAlt } from "react-icons/bi";
-
 import "react-dropdown/style.css";
 import SearchBox from "./common/searchBox";
+
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 function ProductCards(props) {
     const [data, setData] = useState(base.loadProducts());
@@ -42,12 +40,11 @@ function ProductCards(props) {
                     <NavLink to={"/bazar/product/" + card.id}>
                         <div className="cards__card">
                             {card.image && (
-                                <ReactImageAppear
-                                    animation="zoomIn"
-                                    animationDuration=".1s"
-                                    className="cards__card__image"
-                                    src={card.image[0]} // use normal <img> attributes as props
-                                />
+                                <div className="cards__card__image">
+                                    <Img
+                                        image={card.image[0]} // use normal <img> attributes as props
+                                    />
+                                </div>
                             )}
                             <div>
                                 <h2 className="cards__card__title">

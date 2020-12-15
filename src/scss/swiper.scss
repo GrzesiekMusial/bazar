@@ -5,6 +5,10 @@
     --red: #990f3d;
 }
 
+.swiper-container {
+    height: inherit !important;
+}
+
 .swiper-button {
     &-next {
         right: 0 !important;

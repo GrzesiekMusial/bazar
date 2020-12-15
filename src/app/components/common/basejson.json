@@ -1,0 +1,68 @@
+{
+    "products": [
+        {
+            "id": 0,
+            "title": "Czerwona kurtka na sprzedaż!",
+            "image": ["https://api.thecatapi.com/v1/images/search"],
+            "text": "Ta kurtka może być Twoja!!!!! ma świetne kieszenie każdy się w nią wzmieści",
+            "nick": "monica",
+            "price": 200,
+            "category": "MODA"
+        },
+        {
+            "id": 1,
+            "title": "Oddam",
+            "image": [
+                "https://api.thecatapi.com/v1/images/search, https://api.thecatapi.com/v1/images/search"
+            ],
+            "text": "oddam za darmo",
+            "nick": "monica",
+            "price": 200,
+            "category": "MODA"
+        },
+        {
+            "id": 2,
+            "title": "TITLE: OPONY",
+            "image": [
+                "https://api.thecatapi.com/v1/images/search, https://api.thecatapi.com/v1/images/search"
+            ],
+            "text": "OPIS: stare opony",
+            "price": "150",
+            "nick": "monica",
+            "data": "19:30",
+            "category": "INNE"
+        },
+        {
+            "id": 3,
+            "title": "TITLE: OPONY",
+            "text": "OPIS: stare opony",
+            "nick": "monica",
+            "data": "19:30",
+            "category": "INNE"
+        }
+    ],
+    "notices": [
+        {
+            "id": 0,
+            "title": "TITLE: Red Jsdasda  sdaasd sadas dsad  as asasd asd asd asdacket for for FREE!",
+            "user": "John",
+            "text": "Znaleziono zieloną kurtkę! Znaleziono zieloną kurtkę! Znaleziono zieloną kurtkę! Znaleziono zieloną kurtkę! Znaleziono zieloną kurtkę! Znaleziono zieloną kurtkę! Znaleziono zieloną kurtkę! Znaleziono zieloną kurtkę! Znaleziono zieloną kurtkę!"
+        },
+        {
+            "id": 1,
+            "title": "PROSZE SPRZAATAC PO PSIE!",
+            "user": "Monica",
+            "text": "Trawa podeptana..."
+        },
+        {
+            "id": 2,
+            "title": "znalazłem opony przy drodze!",
+            "user": "Lei",
+            "image": [
+                "https://api.thecatapi.com/v1/images/search, https://api.thecatapi.com/v1/images/search"
+            ],
+            "text": "dfsfs"
+        }
+    ],
+    "categories": ["INNE", "SPIŻARNIA", "MODA", "ELEKTRONIKA", "DOMOWE"]
+}
