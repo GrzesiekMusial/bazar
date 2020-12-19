@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 
+import MyForm from "./myform.js";
+
 import { Formik } from "formik";
 import * as Yup from "yup";
 
@@ -76,6 +78,7 @@ const Register = (props) => {
                     </>
                 )}
             </Formik>
+            <MyForm />
         </div>
     );
 };
