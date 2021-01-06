@@ -1,10 +1,13 @@
+import React from "react";
 import { useFormikContext } from "formik";
+
 import ErrorMessage from "./errorMessage";
 
 const AddTextBox = ({
     name,
     placeholder = "",
     label = null,
+    defaultValue,
     ...otherProps
 }) => {
     const {
@@ -23,6 +26,7 @@ const AddTextBox = ({
                 onChange={handleChange(name)}
                 onBlur={() => setFieldTouched(name)}
                 {...otherProps}
+                defaultValue={defaultValue}
             ></textarea>
 
             <ErrorMessage error={errors[name]} visible={touched[name]} />

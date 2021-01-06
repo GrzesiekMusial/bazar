@@ -1,7 +1,15 @@
+import React from "react";
 import { useFormikContext } from "formik";
+
 import ErrorMessage from "./errorMessage";
 
-const AddSelectBox = ({ name, arr, label = null, ...otherProps }) => {
+const AddSelectBox = ({
+    name,
+    arr,
+    label = null,
+    defaultValue,
+    ...otherProps
+}) => {
     const {
         handleChange,
         errors,
@@ -17,10 +25,15 @@ const AddSelectBox = ({ name, arr, label = null, ...otherProps }) => {
                 onChange={handleChange(name)}
                 onBlur={() => setFieldTouched(name)}
                 {...otherProps}
-                defaultValue={arr[0]}
+                defaultValue={defaultValue}
             >
                 {arr.map((cat) => (
-                    <option value={cat}>{cat}</option>
+                    <option
+                        selected={defaultValue === cat._id ? true : false}
+                        value={cat._id}
+                    >
+                        {cat.name}
+                    </option>
                 ))}
             </select>
 

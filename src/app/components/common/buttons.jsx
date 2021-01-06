@@ -1,8 +1,7 @@
+import React from "react";
 import { NavLink } from "react-router-dom";
 
 const Buttons = ({ buttons }) => {
-    console.log(buttons);
-
     return (
         <div className="screen__buttons">
             {buttons.map((button) => (

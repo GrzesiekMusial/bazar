@@ -1,33 +1,30 @@
 import React, { useEffect } from "react";
-
-import MyForm from "./myform.js";
-
+import { pick } from "lodash";
 import { Formik } from "formik";
-import * as Yup from "yup";
 
-import AddInputBox from "./common/form/addInputBox.jsx";
-import AddSubmitButton from "./common/form/submitButton.jsx";
+import { validationSchema } from "./models/register";
 
-const validationSchema = Yup.object().shape({
-    email: Yup.string().trim().required("Podaj email.").label("Email").email(),
-    login: Yup.string()
-        .trim()
-        .required("Podaj login.")
-        .min(5)
-        .max(120)
-        .label("Login"),
-    password: Yup.string()
-        .min(6, "Password must be at least 6 characters")
-        .required("Password is required"),
-    confirmPassword: Yup.string()
-        .oneOf([Yup.ref("password"), null], "Passwords must match")
-        .required("Confirm Password is required"),
-});
+import AddInputBox from "../common/form/addInputBox.jsx";
+import AddSubmitButton from "../common/form/submitButton.jsx";
+
+import * as userBase from "../../../services/users";
 
 const Register = (props) => {
+    const { title } = props;
+
     useEffect(() => {
-        props.title("register");
+        title("register");
     }, []);
+
+    const handleRegister = async (user) => {
+        user = pick(user, ["login", "email", "password"]);
+        const response = await userBase.add(user);
+
+        if (response.ok) {
+            localStorage.setItem("token", response.headers["x-auth-token"]);
+            window.location = "/";
+        }
+    };
 
     return (
         <div className="screen">
@@ -38,7 +35,7 @@ const Register = (props) => {
                     password: "",
                     confirmPassword: "",
                 }}
-                onSubmit={(values) => console.log(values)}
+                onSubmit={(values) => handleRegister(values)}
                 validationSchema={validationSchema}
             >
                 {({}) => (
@@ -78,7 +75,6 @@ const Register = (props) => {
                     </>
                 )}
             </Formik>
-            <MyForm />
         </div>
     );
 };

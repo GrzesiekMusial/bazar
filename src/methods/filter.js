@@ -1,13 +1,12 @@
-const dataFilter = (filterData, category = "WSZYSTKIE", text = "") => {
+const dataFilter = (filterData, category = "0", text = "") => {
+    if (!filterData) return [];
     const result = filterData.filter(
         (card) =>
-            (category.toUpperCase() === "WSZYSTKIE" ||
-                card.category.toUpperCase() === category.toUpperCase()) &&
+            (category === "0" || card.category._id === category) &&
             (text === "" ||
-                card.title.toUpperCase().includes(text.toUpperCase()) ||
-                card.text.toUpperCase().includes(text.toUpperCase()))
+                card.title.includes(text) ||
+                card.text.includes(text))
     );
-
     return result.reverse();
 };
 

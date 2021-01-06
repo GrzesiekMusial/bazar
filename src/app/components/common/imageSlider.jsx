@@ -1,18 +1,21 @@
-import Swiper from "react-id-swiper";
-
 import React from "react";
+import Swiper from "react-id-swiper";
 import SwiperCore, { Navigation, Pagination } from "swiper";
-
 import "swiper/swiper-bundle.css";
-import Img from "./imageLoader";
+
+import ImageLoader from "./imageLoader";
+import noPic from "../../../assets/media/no-image.png";
 
 SwiperCore.use([Navigation, Pagination]);
 
 const ImageSlider = ({ images, handleClick = false }) => {
     const imagesList = [];
-    for (let key in images) {
-        imagesList.push(images[key]);
-    }
+
+    if (images)
+        for (let key in images) {
+            imagesList.push(images[key]);
+        }
+    else imagesList.push(noPic);
 
     const params = {
         pagination: {
@@ -30,8 +33,8 @@ const ImageSlider = ({ images, handleClick = false }) => {
     return (
         <Swiper {...params}>
             {imagesList.map((img, index, arr) => (
-                <div className="cards__card__image">
-                    <Img
+                <div className="imageSlider">
+                    <ImageLoader
                         onClick={() => handleClick(img, index, arr)}
                         image={img}
                     />

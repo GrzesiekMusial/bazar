@@ -1,3 +1,5 @@
+import React from "react";
+
 import { BsFilterLeft } from "react-icons/bs";
 import { BiSearchAlt } from "react-icons/bi";
 import { IoFilterCircleOutline } from "react-icons/io5";
@@ -22,7 +24,7 @@ const SearchBox = ({
     return (
         <>
             {filtr &&
-                ((status.category === "WSZYSTKIE" && (
+                ((status.category === "0" && (
                     <BsFilterLeft
                         className="icon icon--category"
                         onClick={CategoryOpen}
@@ -54,14 +56,15 @@ const SearchBox = ({
                     onChange={(e) =>
                         handleCategorySearch(e.currentTarget.value)
                     }
-                    defaultValue={"WSZYSTKIE"}
+                    defaultValue={"0"}
                     onSelect={() =>
                         document.getElementById("searchBox").focus()
                     }
                 >
-                    {["WSZYSTKIE", ...categories].map((cat) => (
-                        <option value={cat}>{cat}</option>
-                    ))}
+                    {categories &&
+                        categories.map((cat) => (
+                            <option value={cat._id}>{cat.name}</option>
+                        ))}
                 </select>
             )}
 
