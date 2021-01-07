@@ -2,8 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import "./index.css";
-import "./scss/index.scss";
-import "./scss/swiper.scss";
+import "./style.gulp.css";
 
 import App from "./App";
 
