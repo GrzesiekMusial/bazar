@@ -27,7 +27,16 @@ import ProtectedRoute from "./app/components/common/protectedRoute";
 
 import * as auth from "./services/auth";
 import * as imagesBase from "./services/images";
+import { apiClient } from "./services/client";
+import { css } from "@emotion/core";
 
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+    width: 100vw;
+    height: 100vh;
+`;
 class App extends Component {
     state = {
         images: null,

@@ -24,7 +24,9 @@ function ProductDetails(props) {
     }, [card]);
 
     const handleDelete = async (card) => {
-        base.productDelete();
+        await base.productDelete(card);
+        setModal(false);
+        history.push("/bazar");
     };
 
     return (

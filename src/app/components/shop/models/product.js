@@ -8,7 +8,7 @@ const validationSchema = Yup.object().shape({
         .max(120)
         .label("Nazwa"),
     text: Yup.string().max(6000),
-    images: Yup.array().of(Yup.string().max(44)),
+    images: Yup.array(),
     price: Yup.number()
         .typeError("Nieprawidłowa wartość.")
         .max(9000000)

@@ -20,6 +20,8 @@ const AddProduct = (props) => {
         if (!cat) return history.push("/add");
         setCategories(cat);
 
+        if (!match.params.id) return;
+
         const prod = await base.getOneProduct(
             match.params.id,
             setEdit,
@@ -33,6 +35,13 @@ const AddProduct = (props) => {
         if (result) return history.push(`/bazar/product/${result._id}`);
     };
 
+    const handleDelete = async (id) => {
+        console.log(id);
+        const result = image.filter((img) => img !== id && img.name !== id);
+        console.log(result);
+        setImage(result);
+    };
+
     return (
         <div className="screen">
             {categories && (
@@ -44,6 +53,7 @@ const AddProduct = (props) => {
                             <Forms.Image
                                 handleChange={setImage}
                                 preview={image}
+                                handleDelete={handleDelete}
                             />
                         </div>
 

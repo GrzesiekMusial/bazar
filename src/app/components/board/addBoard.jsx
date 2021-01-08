@@ -28,13 +28,24 @@ const AddBoard = (props) => {
         if (result) history.push("/board");
     };
 
+    const handleDelete = async (id) => {
+        console.log(id);
+        const result = image.filter((img) => img !== id && img.name !== id);
+        console.log(result);
+        setImage(result);
+    };
+
     return (
         <div className="screen">
             <ToastContainer />
             <div className="screen__container">
                 <div className="addBoard">
                     <div className="addBoard__images">
-                        <Forms.Image handleChange={setImage} preview={image} />
+                        <Forms.Image
+                            handleChange={setImage}
+                            preview={image}
+                            handleDelete={handleDelete}
+                        />
                     </div>
 
                     <Formik

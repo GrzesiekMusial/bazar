@@ -1,6 +1,5 @@
 import { toast } from "react-toastify";
 
-import * as imagesBase from "../services/images";
 import * as noticeBase from "../services/notices";
 import * as productBase from "../services/products";
 
@@ -14,29 +13,40 @@ const productSave = async (item, edit, image) => {
 };
 
 const save = async (item, edit, image, base) => {
-    item.images = await imageSave(item, edit, image);
+    item.images = await checkImage(image);
+
+    const form = new FormData();
+    console.log("IMAGES ", item.images);
+    console.log(item.images, "IMAGES");
+    if (item.images.new.length > 0)
+        item.images.new.forEach((img) => form.append("file", img));
+    form.append("title", item.title);
+    form.append("text", item.text);
+    form.append("price", item.price);
+    form.append("category", item.category);
 
     if (edit) {
-        item._id = edit._id;
-        const response = await base.edit(item);
+        if (item.images.old.length > 0) form.append("images", item.images.old);
+        form.append("_id", edit._id);
+
+        const response = await base.edit(edit._id, form);
         if (!response.ok) throw toast.error("Error occured on saving!");
         return response.data;
     }
 
-    console.log("ITEM", item);
-    const response = await base.add(item);
+    const response = await base.add(form);
     if (!response.ok) throw toast.error(response.data);
     return response.data;
 };
 
-const imageSave = async (item, edit, image) => {
-    if (!(image.length > 0 && typeof image[0] !== "string")) return item.images;
+const checkImage = async (images) => {
+    const result = { old: [], new: [] };
 
-    if (edit) edit.images.forEach((img) => imagesBase.remove(img));
+    await images.forEach((img) =>
+        typeof img === "string" ? result.old.push(img) : result.new.push(img)
+    );
 
-    const response = await uploadImage(image);
-    if (response.ok) return response.data;
-    else throw toast.error("Error occured on saving!");
+    return result;
 };
 
 const checkPrice = async (price) => {
@@ -48,13 +58,8 @@ const checkPrice = async (price) => {
             price = 0;
         }
     } catch (e) {}
+    price = price.toString();
     return price;
-};
-
-const uploadImage = (image) => {
-    const form = new FormData();
-    image.forEach((img) => form.append("image", img));
-    return imagesBase.add(form);
 };
 
 export { noticeSave, productSave };

@@ -8,8 +8,8 @@ const getOne = (id) => client.get(`${endpoint}/${id}`);
 
 const add = async (body) => await client.post(endpoint, body);
 
-const edit = (body) => client.put(`${endpoint}/${body._id}`, body);
+const edit = (id, body) => client.put(`${endpoint}/${id}`, body);
 
-const remove = (body) => client.delete(endpoint + "/" + body);
+const remove = async (body) => await client.delete(endpoint + "/" + body);
 
 export { get, add, edit, remove, getOne };
