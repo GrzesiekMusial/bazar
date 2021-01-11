@@ -1,6 +1,6 @@
 import { apiClient as client } from "./client";
 
-const endpoint = "categories";
+const endpoint = "/categories";
 
 const get = () => client.get(endpoint);
 

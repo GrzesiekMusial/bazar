@@ -32,7 +32,8 @@ const AddProduct = (props) => {
 
     const handleSave = async (values) => {
         const result = await base.productSave(values, edit, image);
-        if (result) return history.push(`/bazar/product/${result._id}`);
+        console.log(result);
+        // if (result) return history.push(`/bazar/product/${result._id}`);
     };
 
     const handleDelete = async (id) => {

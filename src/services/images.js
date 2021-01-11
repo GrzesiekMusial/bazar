@@ -1,7 +1,10 @@
-const endpoint = "/images";
+var cloudinary = require("cloudinary-core");
+var cl = new cloudinary.Cloudinary({
+    cloud_name: process.env.REACT_APP_CLOUDINARY_NAME,
+});
 
-const get = (body) => {
-    return `http://192.168.56.1:3000${endpoint}/${body}`;
+const get = (image) => {
+    return cl.url(image);
 };
 
 export { get };

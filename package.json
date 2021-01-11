@@ -10,6 +10,7 @@
         "@testing-library/user-event": "^12.6.0",
         "apisauce": "^2.0.0",
         "axios": "^0.21.1",
+        "cloudinary-core": "^2.11.3",
         "formik": "^2.2.6",
         "jwt-decode": "^3.1.2",
         "lodash": "^4.17.20",
@@ -34,7 +35,7 @@
         "yup": "^0.32.8"
     },
     "scripts": {
-        "start": "react-scripts start",
+        "start": "gulp && react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"

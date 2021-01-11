@@ -1,32 +1,25 @@
 import { toast } from "react-toastify";
 import * as noticeBase from "../services/notices";
 import * as productBase from "../services/products";
+import { cubby } from "./cubby";
 
-const noticeDelete = async (card) => {
-    return await dlt(card, noticeBase);
+const noticeDelete = async (item) => {
+    return await dlt(item, noticeBase, cubby.notices);
 };
 
-const productDelete = async (card) => {
-    return dlt(card, productBase);
+const productDelete = async (item) => {
+    return dlt(item, productBase, cubby.products);
 };
 
-const dlt = async (card, base) => {
-    console.log("delete", card);
-
-    try {
-        console.log("delete", card);
-        const result = await base.remove(card._id);
-        if (!result.ok)
-            throw toast.error(
-                "Error when delete. " + result.originalError.message
-            );
-        console.log(result);
-        return result.data;
-    } catch (ex) {
-        if (ex.response && ex.response.status === 404)
-            throw toast.error("This product has already been deleted.");
-        throw toast.error("Error when delete.");
-    }
+const dlt = async (item, base, cubby) => {
+    const result = await base.remove(item._id);
+    if (!result.ok)
+        throw toast.error("Error when delete. " + result.originalError.message);
+    if (cubby.data)
+        cubby.data = await cubby.data.filter(
+            async (old) => old._id !== item._id
+        );
+    return result.data;
 };
 
 export { noticeDelete, productDelete };

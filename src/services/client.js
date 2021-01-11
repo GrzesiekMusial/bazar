@@ -1,7 +1,9 @@
 import { create } from "apisauce";
 
+console.log(process.env, process.env.REACT_APP_API_URL);
+
 const apiClient = create({
-    baseURL: "http://192.168.56.1:3000",
+    baseURL: process.env.REACT_APP_API_URL,
 });
 
 apiClient.setHeader("x-auth-token", localStorage.getItem("token"));

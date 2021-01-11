@@ -2,40 +2,41 @@ import { toast } from "react-toastify";
 
 import * as noticeBase from "../services/notices";
 import * as productBase from "../services/products";
+import { cubby } from "./cubby";
 
 const noticeSave = async (item, edit, image) => {
-    return await save(item, edit, image, noticeBase);
+    return await save(item, edit, image, noticeBase, cubby.notices);
 };
 
 const productSave = async (item, edit, image) => {
     item.price = await checkPrice(item.price);
-    return await save(item, edit, image, productBase);
+    return await save(item, edit, image, productBase, cubby.products);
 };
 
-const save = async (item, edit, image, base) => {
+const save = async (item, edit, image, base, cubby) => {
     item.images = await checkImage(image);
 
     const form = new FormData();
     console.log("IMAGES ", item.images);
     console.log(item.images, "IMAGES");
     if (item.images.new.length > 0)
-        item.images.new.forEach((img) => form.append("file", img));
+        await item.images.new.forEach(async (img) => form.append("file", img));
     form.append("title", item.title);
     form.append("text", item.text);
     form.append("price", item.price);
     form.append("category", item.category);
 
+    let response;
     if (edit) {
         if (item.images.old.length > 0) form.append("images", item.images.old);
         form.append("_id", edit._id);
-
-        const response = await base.edit(edit._id, form);
-        if (!response.ok) throw toast.error("Error occured on saving!");
-        return response.data;
+        response = await base.edit(edit._id, form);
+    } else {
+        response = await base.add(form);
     }
-
-    const response = await base.add(form);
-    if (!response.ok) throw toast.error(response.data);
+    console.log(response.data);
+    if (!response.ok) throw toast.error("Error occured on saving!");
+    if (cubby.data) cubby.data.push(response.data);
     return response.data;
 };
 

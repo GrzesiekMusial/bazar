@@ -7,6 +7,7 @@ import noPic from "../../../assets/media/no-image.png";
 import * as imagesBase from "../../../services/images";
 
 const Img = ({ image, onClick = null }) => {
+    console.log("LAZY LOAD : ", image);
     return (
         <LazyLoadImage
             onClick={onClick}

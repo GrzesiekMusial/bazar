@@ -34,8 +34,9 @@ function cssTask(done) {
 }
 
 function watchTask() {
-    watch(config.app.scss, series(cssTask, reload));
+    watch(config.app.scss, { interval: 1000 }, series(cssTask));
 }
 
 exports.cssTask = cssTask;
+exports.watchTask = watchTask;
 exports.default = cssTask;

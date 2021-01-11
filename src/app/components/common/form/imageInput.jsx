@@ -23,8 +23,6 @@ const ImageInput = ({ handleChange, preview, handleDelete }) => {
         handleChange(result.slice(0, 6));
     };
 
-    console.log(preview);
-
     return (
         <div className="imageInput">
             <div className="imageInput__images">

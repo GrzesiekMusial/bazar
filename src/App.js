@@ -24,19 +24,14 @@ import Buttons from "./app/components/common/buttons";
 import Login from "./app/components/user/login";
 import Register from "./app/components/user/register";
 import ProtectedRoute from "./app/components/common/protectedRoute";
+import Spinner from "./app/components/common/spinner";
 
 import * as auth from "./services/auth";
 import * as imagesBase from "./services/images";
 import { apiClient } from "./services/client";
-import { css } from "@emotion/core";
 
-const override = css`
-    display: block;
-    margin: 0 auto;
-    border-color: red;
-    width: 100vw;
-    height: 100vh;
-`;
+import { ImCheckboxChecked } from "react-icons/im";
+
 class App extends Component {
     state = {
         images: null,
@@ -45,6 +40,8 @@ class App extends Component {
         header: null,
         buttons: null,
         user: null,
+        load: false,
+        check: false,
     };
 
     renderButtons = async () => {
@@ -61,12 +58,10 @@ class App extends Component {
     };
 
     renderTitle = (t) => {
-        console.log(t);
         this.setState({ header: t });
     };
 
     renderImage = (img, index) => {
-        console.log(img, index);
         this.setState({ images: img, photoIndex: index, isOpen: true });
     };
 
@@ -92,6 +87,13 @@ class App extends Component {
         return (
             <div>
                 <Header title={this.state.header} />
+                {this.state.load === true && <Spinner />}
+                {this.state.check && (
+                    <div className="spinner check">
+                        <ImCheckboxChecked />
+                    </div>
+                )}
+
                 <Switch>
                     <ProtectedRoute
                         path="/bazar/add"
