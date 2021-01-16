@@ -58,7 +58,6 @@
     &__buttons {
         z-index: 500;
         background-color: var(--backgroundLight);
-        color: var(--text);
         box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.16);
 
         display: flex;
@@ -71,9 +70,11 @@
         bottom: 0;
 
         & * {
+            width: 100%;
             font-size: 30px;
             background-color: var(--backgroundLight);
             border: unset;
+            color: var(--text);
         }
     }
 }

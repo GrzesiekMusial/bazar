@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { pick } from "lodash";
 import { Formik } from "formik";
 import config from "../../config/config.json";
-
 import { validationSchema } from "./models/register";
+import * as Yup from "yup";
 
 import AddInputBox from "../common/form/addInputBox.jsx";
 import AddSubmitButton from "../common/form/submitButton.jsx";
@@ -14,10 +14,52 @@ import Spinner from "../common/spinner";
 const Register = (props) => {
     const { title } = props;
     const [load, setLoad] = useState(false);
+    const [schema, setSchema] = useState(validationSchema);
+
+    const logins = [];
+    const emails = [];
+
+    userBase.get().then((res) => checkUsers(res.data));
+
+    const checkUsers = (res) => {
+        try {
+            res.forEach((user) => {
+                logins.push(user.login);
+                emails.push(user.email);
+            });
+
+            const newSchema = Yup.object().shape({
+                email: Yup.string()
+                    .trim()
+                    .notOneOf(emails, "Email is already registered.")
+                    .required("Podaj email.")
+                    .label("Email")
+                    .email(),
+                login: Yup.string()
+                    .trim()
+                    .notOneOf(logins, "That name is already taken.")
+                    .required("Podaj nazwe.")
+                    .min(5)
+                    .max(120)
+                    .label("Login"),
+                password: Yup.string()
+                    .min(6, "Password must be at least 6 characters")
+                    .required("Password is required"),
+                confirmPassword: Yup.string()
+                    .oneOf([Yup.ref("password"), null], "Passwords must match")
+                    .required("Confirm Password is required"),
+            });
+
+            setSchema(newSchema);
+        } catch (ex) {}
+    };
 
     useEffect(() => {
         title(config.headers.register);
     }, []);
+
+    const checkUser = () => {};
+    const checEmail = () => {};
 
     const handleRegister = async (user) => {
         setLoad(true);
@@ -35,7 +77,7 @@ const Register = (props) => {
     };
 
     return (
-        <div className="screen">
+        <main className="screen">
             {load && <Spinner />}
 
             <Formik
@@ -46,7 +88,7 @@ const Register = (props) => {
                     confirmPassword: "",
                 }}
                 onSubmit={(values) => handleRegister(values)}
-                validationSchema={validationSchema}
+                validationSchema={schema}
             >
                 {({}) => (
                     <>
@@ -85,7 +127,7 @@ const Register = (props) => {
                     </>
                 )}
             </Formik>
-        </div>
+        </main>
     );
 };
 

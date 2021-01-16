@@ -59,7 +59,7 @@ function ProductCards(props) {
     };
 
     return (
-        <div className="screen">
+        <main className="screen">
             {load && <Spinner />}
 
             {error && <Forms.Error error={error} visible={error} />}
@@ -86,7 +86,7 @@ function ProductCards(props) {
                     )
                 )}
             </div>
-        </div>
+        </main>
     );
 }
 

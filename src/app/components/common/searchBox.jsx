@@ -5,6 +5,8 @@ import { BiSearchAlt } from "react-icons/bi";
 import { IoFilterCircleOutline } from "react-icons/io5";
 import { AiOutlineFileSearch } from "react-icons/ai";
 
+import config from "../../config/config.json";
+
 const SearchBox = ({
     categories = null,
     handleSearch = null,
@@ -13,28 +15,13 @@ const SearchBox = ({
     search = true,
 }) => {
     const searchOpen = () => {
-        document.getElementById("searchBox").focus();
-    };
-
-    const CategoryOpen = () => {
-        document.getElementById("categoryBox").focus();
+        document
+            .getElementById("searchBox")
+            .classList.toggle("searchBox--show");
     };
 
     return (
         <>
-            {categories &&
-                ((status.category == 0 && (
-                    <BsFilterLeft
-                        className="icon icon--category"
-                        onClick={CategoryOpen}
-                    />
-                )) || (
-                    <IoFilterCircleOutline
-                        className="icon icon--category"
-                        onClick={CategoryOpen}
-                    />
-                ))}
-
             {search &&
                 ((status.text == 0 && (
                     <BiSearchAlt
@@ -48,32 +35,52 @@ const SearchBox = ({
                     />
                 ))}
 
-            {categories && (
-                <select
-                    className="searchBox searchBox--select"
-                    id="categoryBox"
-                    onChange={(e) =>
-                        handleCategorySearch(e.currentTarget.value)
-                    }
-                    defaultValue={"0"}
-                    onSelect={() =>
-                        document.getElementById("searchBox").focus()
-                    }
-                >
-                    {categories &&
-                        categories.map((cat) => (
-                            <option value={cat._id}>{cat.name}</option>
-                        ))}
-                </select>
-            )}
+            <div className="searchBox" id="searchBox">
+                {categories && (
+                    <>
+                        <label for="searchBoxSelect">
+                            {config.info.selectCategory}
+                        </label>
 
-            {search && (
-                <input
-                    id="searchBox"
-                    className="searchBox searchBox--select"
-                    onChange={(e) => handleSearch(e.currentTarget.value)}
-                ></input>
-            )}
+                        <select
+                            className="searchBox--window"
+                            id="categoryBox"
+                            onChange={(e) =>
+                                handleCategorySearch(e.currentTarget.value)
+                            }
+                            defaultValue={"0"}
+                            onSelect={() =>
+                                document.getElementById("searchBox").focus()
+                            }
+                        >
+                            {categories &&
+                                categories.map((cat) => (
+                                    <option value={cat._id}>{cat.name}</option>
+                                ))}
+                        </select>
+                    </>
+                )}
+                {search && (
+                    <>
+                        <label for="searchBoxText">
+                            {config.info.searchText}
+                        </label>
+
+                        <input
+                            id="searchBoxText"
+                            className=" searchBox--window"
+                            onChange={(e) =>
+                                handleSearch(e.currentTarget.value)
+                            }
+                        ></input>
+                    </>
+                )}
+                <div className="searchBox--button">
+                    <button className="actionBtn" onClick={() => searchOpen()}>
+                        {config.buttons.search}
+                    </button>
+                </div>
+            </div>
         </>
     );
 };

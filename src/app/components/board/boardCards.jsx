@@ -37,25 +37,24 @@ const BoardCards = (props, toast) => {
     }, []);
 
     return (
-        <div className="screen">
+        <main className="screen">
             {load && <Spinner />}
 
             {error && <Forms.Error error={error} visible={error} />}
+            <SearchBox
+                filtr={false}
+                handleSearch={setText}
+                status={{ category: category, text: text }}
+            />
 
             <div>
-                <SearchBox
-                    filtr={false}
-                    handleSearch={setText}
-                    status={{ category: category, text: text }}
-                />
-
                 {dataFilter(data, category, text, match.params.id).map(
                     (card) => (
                         <Post card={card} {...props} />
                     )
                 )}
             </div>
-        </div>
+        </main>
     );
 };
 

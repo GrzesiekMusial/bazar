@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import config from "../../config/config.json";
 
 import * as auth from "../../../services/auth";
-import * as base from "../../../methods/data";
 
 import LoginForm from "./forms/loginForm";
 import { NavLink } from "react-router-dom";
@@ -22,7 +21,7 @@ const Login = (props) => {
     }, []);
 
     return (
-        <div className="screen">
+        <main className="screen">
             <div className="login">
                 {user && (
                     <>
@@ -31,7 +30,16 @@ const Login = (props) => {
                             <div>{user.login}</div>
                         </div>
 
-                        <div>
+                        <div className="login__buttons">
+                            <button
+                                className="actionBtn"
+                                onClick={() => auth.logout()}
+                            >
+                                {config.actions.logout}
+                            </button>
+                        </div>
+
+                        <div className="login__buttons">
                             <NavLink
                                 to={{
                                     pathname: "/bazar/" + user._id,
@@ -54,19 +62,12 @@ const Login = (props) => {
                                 </button>
                             </NavLink>
                         </div>
-
-                        <button
-                            className="actionBtn"
-                            onClick={() => auth.logout()}
-                        >
-                            {config.actions.logout}
-                        </button>
                     </>
                 )}
 
                 {!user && <LoginForm redirect={redirect} />}
             </div>
-        </div>
+        </main>
     );
 };
 

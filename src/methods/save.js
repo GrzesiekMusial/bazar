@@ -41,16 +41,7 @@ const save = async (item, edit, image, base, cubby) => {
         response = await base.add(form);
     }
     if (!response.ok)
-        throw toast.error("Can't save! please check internet connection", {
-            position: "top-right",
-            autoClose: 2500,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            transition: Flip,
-        });
+        throw toast.error("Can't save! please check internet connection");
     if (cubby.data) {
         if (edit) {
             cubby.data = cubby.data.filter((item) => item._id !== edit._id);
@@ -66,16 +57,7 @@ const save = async (item, edit, image, base, cubby) => {
         newCube.author = response.data.author;
         cubby.data.unshift(newCube);
     }
-    toast.success("saved", {
-        position: "top-right",
-        autoClose: 2500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        transition: Flip,
-    });
+    toast.success("saved");
     return response.data.item;
 };
 

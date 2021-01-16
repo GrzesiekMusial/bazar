@@ -11,6 +11,7 @@ const Img = ({ image, onClick = null }) => {
         <LazyLoadImage
             onClick={onClick}
             height="Inherit"
+            alt={image ? image : "undefined"}
             src={image ? imagesBase.get(image) : noPic} // use normal <img> attributes as props
             width="100%"
             effect="blur"

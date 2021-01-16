@@ -29,12 +29,16 @@
         "email": "email",
         "login": "nazwa",
         "title": "Tytuł",
-        "description": "Opis..."
+        "description": "Opis...",
+        "deleteAcceptConfirmation": "Potwierdź operację usunięcia",
+        "selectCategory": "wybierz kategorię",
+        "searchText": "szukaj tekstu"
     },
     "buttons": {
         "edit": "edytuj",
         "delete": "usuń",
-        "remove": "usuń"
+        "remove": "usuń",
+        "search": "szukaj"
     },
     "user": {
         "sell": "moja sprzedaż",

@@ -38,7 +38,7 @@ function ProductDetails(props) {
     };
 
     return (
-        <div className="screen">
+        <main className="screen">
             {load && <Spinner />}
 
             {history.location.back && (
@@ -94,7 +94,7 @@ function ProductDetails(props) {
                                 handleDelete(card);
                                 setLoad(true);
                             }}
-                            title={`Potwierdź operację usunięcia ${card.title}`}
+                            title={`${config.info.deleteAcceptConfirmation} ${card.title}`}
                         />
                     )}
                     {card.author &&
@@ -110,12 +110,7 @@ function ProductDetails(props) {
                                         back: history.location.back,
                                     }}
                                 >
-                                    <button
-                                        className="actionBtn edit"
-                                        // onClick={() =>
-                                        //     history.push(`edit/${card._id}`)
-                                        // }
-                                    >
+                                    <button className="actionBtn edit">
                                         {config.buttons.edit}
                                     </button>
                                 </NavLink>
@@ -129,7 +124,7 @@ function ProductDetails(props) {
                         )}
                 </div>
             )}
-        </div>
+        </main>
     );
 }
 

@@ -5,9 +5,7 @@ const Buttons = ({ buttons }) => {
     return (
         <div className="screen__buttons">
             {buttons.map((button) => (
-                <NavLink to={button.ref}>
-                    <button>{button.name}</button>
-                </NavLink>
+                <NavLink to={button.ref}>{button.name}</NavLink>
             ))}
         </div>
     );

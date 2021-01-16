@@ -44,7 +44,7 @@ const AddBoard = (props, toast) => {
     };
 
     return (
-        <div className="screen">
+        <main className="screen">
             {load && <Spinner />}
             <div className="screen__container">
                 <div className="addBoard">
@@ -100,7 +100,7 @@ const AddBoard = (props, toast) => {
                     </Formik>
                 </div>
             </div>
-        </div>
+        </main>
     );
 };
 

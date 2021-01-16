@@ -1,5 +1,4 @@
-import { set } from "lodash";
-import { toast, Flip } from "react-toastify";
+import { toast } from "react-toastify";
 import * as noticeBase from "../services/notices";
 import * as productBase from "../services/products";
 import { cubby } from "./cubby";
@@ -16,17 +15,7 @@ const dlt = async (item, base, cubby, setData) => {
     const result = await base.remove(item._id);
     if (!result.ok)
         throw toast.error(
-            "Delete error - please chceck internet connection and try again! " +
-                {
-                    position: "top-right",
-                    autoClose: 2500,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    transition: Flip,
-                }
+            "Delete error - please chceck internet connection and try again! "
         );
     if (cubby.data)
         cubby.data = cubby.data.filter((old) => old._id !== item._id);

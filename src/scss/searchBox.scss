@@ -1,21 +1,51 @@
 .searchBox {
-    height: 0px !important;
-    border: none;
-    padding: unset !important;
-    padding-left: 5px !important;
+    display: flex;
+    flex-direction: column;
+    // max-height: 0px;
+    overflow: hidden;
+
+    background-color: var(--backgroundLight);
+    box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.56);
+    width: 100%;
+    padding: 5px;
+    top: 0px;
+
     position: fixed;
     z-index: 502;
+
     max-width: 600px;
-    -webkit-appearance: none;
-    top: 5px;
-    width: 95%;
-    transition: height 0.5s;
+    transition: top 0.5s;
 
     font-size: 18px;
-    background-color: whitesmoke;
+    top: -250px;
 
-    &:focus {
-        height: 30px !important;
+    &--button {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    &--show {
+        top: 0px;
+    }
+
+    & * {
+        text-align: center;
+    }
+
+    & input,
+    select {
+        margin: 2px;
+
+        align-self: center;
+        width: 80%;
+        font-size: 15px;
+        resize: none;
+        border-radius: 5px;
+        border: unset;
+        background-color: var(--backgroundDark);
+        margin-bottom: 5px;
+        padding: 5px;
+        -webkit-appearance: none;
     }
 }
 

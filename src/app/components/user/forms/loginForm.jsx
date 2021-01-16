@@ -5,6 +5,7 @@ import { pick } from "lodash";
 import Spinner from "../../common/spinner";
 import * as auth from "../../../../services/auth";
 import config from "../../../config/config.json";
+import { toast } from "react-toastify";
 
 import { NavLink } from "react-router-dom";
 import { Formik } from "formik";
@@ -26,7 +27,10 @@ const LoginForm = ({ redirect }) => {
             localStorage.setItem("token", response.headers["x-auth-token"]);
             console.log("ok");
             redirect();
-        } else setLoad(false);
+        } else {
+            setLoad(false);
+            toast.error("Please check login & password.");
+        }
     };
 
     return (

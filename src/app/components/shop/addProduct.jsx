@@ -49,7 +49,7 @@ const AddProduct = (props) => {
     };
 
     return (
-        <div className="screen">
+        <main className="screen">
             {load && <Spinner />}
             {categories && (
                 <div className="screen__container">
@@ -147,7 +147,7 @@ const AddProduct = (props) => {
                     </div>
                 </div>
             )}
-        </div>
+        </main>
     );
 };
 
