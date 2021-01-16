@@ -2,14 +2,14 @@ import { apiClient as client } from "./client";
 
 const endpoint = "/users";
 
-const get = () => client.get(endpoint);
+const get = async () => await client.get(endpoint);
 
-const me = () => client.get(endpoint + "/me");
+const me = async () => await client.get(endpoint + "/me");
 
-const add = (body) => client.post(endpoint, body);
+const add = async (body) => await client.post(endpoint, body);
 
-const edit = (body) => client.put(endpoint, body);
+const edit = async (body) => await client.put(endpoint, body);
 
-const remove = (body) => client.put(endpoint, body);
+const remove = async (body) => await client.put(endpoint, body);
 
-export { get, add, edit, remove };
+export { get, add, edit, remove, me };

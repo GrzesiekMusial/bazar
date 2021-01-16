@@ -1,5 +1,5 @@
 import { apiClient as client } from "./client";
-import jwtDecode from "jwt-decode";
+import jwtDecode, { InvalidTokenError } from "jwt-decode";
 
 const endpoint = "/auth";
 
@@ -10,7 +10,6 @@ const getUser = (token = localStorage.getItem("token")) => {
         const user = jwtDecode(token);
         return user;
     } catch (ex) {
-        console.log("efef");
         return null;
     }
 };

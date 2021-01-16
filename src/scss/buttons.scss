@@ -1,0 +1,59 @@
+.actionBtn {
+    height: 40px;
+    font-size: 17px;
+    margin: 2px;
+    border: unset;
+    border-radius: 5px;
+    opacity: 0.7;
+    width: 95%;
+    max-width: 500px;
+    font-weight: bold;
+
+    background-color: var(--special);
+
+    color: var(--backgroundLight);
+
+    &:active {
+        opacity: 1;
+    }
+}
+
+.specialBtn {
+    align-self: flex-end;
+
+    margin: 20px;
+
+    padding: 2px;
+    padding-left: 25px;
+    padding-right: 25px;
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    color: var(--special);
+}
+
+.backButton {
+    position: fixed;
+    z-index: 501 !important;
+    left: 0;
+    border: unset;
+    & * {
+        font-size: 30px;
+
+        color: var(--special);
+    }
+}
+
+.edit {
+    background-color: royalblue;
+}
+
+.delete {
+    background-color: red;
+}
+
+.buttonLink {
+    width: 100%;
+}

@@ -1,36 +1,25 @@
-import React, { useEffect } from "react";
-import { NavLink } from "react-router-dom";
-import { Formik } from "formik";
-import { pick } from "lodash";
+import React, { useEffect, useState } from "react";
 
-import { validationSchema } from "./models/login";
-
-import { RiUserAddLine } from "react-icons/ri";
+import config from "../../config/config.json";
 
 import * as auth from "../../../services/auth";
+import * as base from "../../../methods/data";
 
-import AddInputBox from "../common/form/addInputBox.jsx";
-import AddSubmitButton from "../common/form/submitButton.jsx";
-import Buttons from "../common/buttons.jsx";
+import LoginForm from "./forms/loginForm";
+import { NavLink } from "react-router-dom";
 
 const Login = (props) => {
     const { user, title, location } = props;
 
+    function redirect() {
+        window.location = location.state
+            ? location.state.from.pathname
+            : "/login";
+    }
+
     useEffect(() => {
-        title("login");
+        title(user ? config.headers.user : config.headers.login);
     }, []);
-
-    const handleLogin = async (user) => {
-        user = pick(user, ["email", "password"]);
-        const response = await auth.login(user);
-
-        if (response.ok) {
-            localStorage.setItem("token", response.headers["x-auth-token"]);
-
-            const { state } = location;
-            window.location = state ? state.from.pathname : "/";
-        }
-    };
 
     return (
         <div className="screen">
@@ -38,68 +27,44 @@ const Login = (props) => {
                 {user && (
                     <>
                         <div className="login__info">
-                            <div>Zalogowany jako:</div>
-                            <div>{user.name}</div>
+                            <div>{config.info.loggedAs}</div>
+                            <div>{user.login}</div>
+                        </div>
+
+                        <div>
+                            <NavLink
+                                to={{
+                                    pathname: "/bazar/" + user._id,
+                                    redirect: "/login",
+                                }}
+                            >
+                                <button className="actionBtn">
+                                    {config.user.sell}
+                                </button>
+                            </NavLink>
+
+                            <NavLink
+                                to={{
+                                    pathname: "/board/" + user._id,
+                                    redirect: "/login",
+                                }}
+                            >
+                                <button className="actionBtn">
+                                    {config.user.posts}
+                                </button>
+                            </NavLink>
                         </div>
 
                         <button
                             className="actionBtn"
                             onClick={() => auth.logout()}
                         >
-                            WYLOGUJ
+                            {config.actions.logout}
                         </button>
                     </>
                 )}
 
-                {!user && (
-                    <Formik
-                        initialValues={{
-                            email: "",
-                            password: "",
-                        }}
-                        onSubmit={(values) => handleLogin(values)}
-                        validationSchema={validationSchema}
-                    >
-                        {({}) => (
-                            <>
-                                <div className="login__buttons">
-                                    <NavLink to="/register">
-                                        <RiUserAddLine className="specialBtn" />
-                                    </NavLink>
-
-                                    <Buttons
-                                        buttons={[
-                                            {
-                                                name: <RiUserAddLine />,
-                                                ref: "/register",
-                                            },
-                                        ]}
-                                    />
-
-                                    <AddInputBox
-                                        // className="addBoard__title"
-                                        name="email"
-                                        label="Email"
-                                        placeholder="Email"
-                                    />
-
-                                    <AddInputBox
-                                        // className="addBoard__title"
-                                        label="Password"
-                                        name="password"
-                                        type="password"
-                                        placeholder="Password"
-                                    />
-                                </div>
-
-                                <AddSubmitButton
-                                    className="actionBtn"
-                                    title="ZALOGUJ"
-                                />
-                            </>
-                        )}
-                    </Formik>
-                )}
+                {!user && <LoginForm redirect={redirect} />}
             </div>
         </div>
     );

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
-import Img from "../common/imageLoader";
+import config from "../../config/config.json";
 
 import * as base from "../../../methods/data";
 import * as Forms from "../common/form/forms";
@@ -12,27 +12,32 @@ import "react-dropdown/style.css";
 import SearchBox from "../common/searchBox";
 
 import "react-lazy-load-image-component/src/effects/blur.css";
+import Spinner from "./../common/spinner";
+import Card from "./card";
 function ProductCards(props) {
-    const { title, history } = props;
+    const { title, history, match, location, user } = props;
     const [data, setData] = useState(null);
     const [categories, setCategories] = useState(null);
     const [category, setCategory] = useState(
-        history.location.state ? history.location.state.category : "0"
+        history.location.state ? history.location.state.category : 0
     );
     const [text, setText] = useState(
-        history.location.state ? history.location.state.text : ""
+        history.location.state ? history.location.state.text : 0
     );
     const [error, setError] = useState(null);
+    const [load, setLoad] = useState(true);
 
     useEffect(() => {
-        const name =
+        const cat =
             categories && category
                 ? categories.filter((cat) => cat._id == category)[0].name
-                : null;
+                : 0;
+
+        const name = config.headers.sell;
 
         title(
-            `ogłoszenia ${category === "0" ? "" : "| " + name} ${
-                text === "" ? "" : " ~ " + text.toLowerCase()
+            `${name} ${category == 0 ? "" : "| " + cat} ${
+                text == 0 ? "" : " ~ " + text.toLowerCase()
             }`
         );
     }, [categories, category, text]);
@@ -43,57 +48,43 @@ function ProductCards(props) {
 
     const loadData = async () => {
         try {
-            await base.getProducts(setData);
-            await base.getCategories(true, setCategories);
+            await Promise.allSettled([
+                base.getCategories(true, setCategories),
+                base.getProducts(setData),
+            ]);
         } catch (ex) {
             setError("Cant load data, plese try again");
         }
+        setLoad(false);
     };
 
     return (
         <div className="screen">
+            {load && <Spinner />}
+
             {error && <Forms.Error error={error} visible={error} />}
 
-            {categories && (
-                <SearchBox
-                    status={{ category: category, text: text }}
-                    categories={categories}
-                    handleCategorySearch={setCategory}
-                    handleSearch={setText}
-                />
-            )}
+            <SearchBox
+                status={{ category: category, text: text }}
+                categories={categories}
+                handleCategorySearch={setCategory}
+                handleSearch={setText}
+            />
 
             <div className="cards">
-                {dataFilter(data, category, text).map((card) => (
-                    <NavLink
-                        to={{
-                            pathname: "/bazar/product/" + card._id,
-                            state: { category, text },
-                        }}
-                    >
-                        <div className="cards__card">
-                            <div className="cards__card__image">
-                                <Img
-                                    image={
-                                        card.images
-                                            ? card.images[0]
-                                            : card.images
-                                    }
-                                />
-                            </div>
-                            <div>
-                                <h2 className="cards__card__title">
-                                    {card.title}
-                                </h2>
-                                {card.price !== 0 && (
-                                    <div className="cards__card__price">
-                                        <span>{card.price} zł</span>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </NavLink>
-                ))}
+                {dataFilter(data, category, text, match.params.id).map(
+                    (card) => (
+                        <NavLink
+                            to={{
+                                pathname: "/bazar/product/" + card._id,
+                                state: { category, text },
+                                back: location.pathname,
+                            }}
+                        >
+                            <Card card={card} />
+                        </NavLink>
+                    )
+                )}
             </div>
         </div>
     );

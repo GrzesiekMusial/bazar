@@ -1,43 +1,51 @@
 import React, { useEffect, useState } from "react";
 import { Formik } from "formik";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
+import config from "../../config/config.json";
 
 import { validationSchema } from "./models/board";
-
 import * as Forms from "../common/form/forms";
 import * as base from "../../../methods/data";
+import Spinner from "../common/spinner";
+import { useHistory } from "react-router-dom";
 
-const AddBoard = (props) => {
+const AddBoard = (props, toast) => {
     const [image, setImage] = useState([]);
     const [edit, setEdit] = useState(null);
+    const [load, setLoad] = useState(true);
 
     const { title, history, match } = props;
+    const back = useHistory();
 
     useEffect(async () => {
         try {
-            title("ogłoszenie");
+            title(config.headers.newPost);
             await base.getOneNotice(match.params.id, setEdit, setImage);
+            setLoad(false);
         } catch (ex) {
-            history.push("/add");
+            return back.push(props.location.back, props.location.state);
         }
     }, []);
 
     const handleSave = async (values) => {
-        const result = await base.noticeSave(values, edit, image);
-        if (result) history.push("/board");
+        try {
+            await base.noticeSave(values, edit, image);
+            if (props.location.back)
+                back.push(props.location.back, props.location.state);
+            else back.push("/board");
+        } catch (ex) {
+            setLoad(false);
+        }
     };
 
     const handleDelete = async (id) => {
-        console.log(id);
         const result = image.filter((img) => img !== id && img.name !== id);
-        console.log(result);
         setImage(result);
     };
 
     return (
         <div className="screen">
-            <ToastContainer />
+            {load && <Spinner />}
             <div className="screen__container">
                 <div className="addBoard">
                     <div className="addBoard__images">
@@ -61,7 +69,10 @@ const AddBoard = (props) => {
                                       title: "",
                                   }
                         }
-                        onSubmit={(values) => handleSave(values)}
+                        onSubmit={(values) => {
+                            handleSave(values);
+                            setLoad(true);
+                        }}
                         validationSchema={validationSchema}
                     >
                         {({}) => (
@@ -69,19 +80,19 @@ const AddBoard = (props) => {
                                 <Forms.Input
                                     className="addBoard__title"
                                     name="title"
-                                    placeholder="Nazwa"
+                                    placeholder={config.info.title}
                                     defaultValue={edit ? edit.title : null}
                                 />
                                 <Forms.Text
                                     className="addBoard__text"
                                     name="text"
-                                    placeholder="Opis..."
+                                    placeholder={config.info.description}
                                     defaultValue={edit ? edit.text : null}
                                 />
                                 <div className="addBoard__buttons">
                                     <Forms.Submit
                                         className="actionBtn"
-                                        title={edit ? "ZAPISZ" : "OPUBLIKUJ"}
+                                        title={config.actions.save}
                                     />
                                 </div>
                             </>

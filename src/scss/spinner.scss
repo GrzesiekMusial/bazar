@@ -3,13 +3,15 @@
     position: relative;
     width: 80px;
     height: 80px;
+    opacity: 1;
+    animation: spinner-opacity 2s ease;
 }
 .lds-facebook div {
     display: inline-block;
     position: absolute;
     left: 8px;
     width: 16px;
-    background: var(--red);
+    background: var(--backgroundDark);
     animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
 }
 .lds-facebook div:nth-child(1) {
@@ -29,7 +31,7 @@
         top: 8px;
         height: 64px;
     }
-    50%,
+
     100% {
         top: 24px;
         height: 32px;
@@ -41,34 +43,20 @@
     height: 100vh;
     position: fixed;
     background-color: var(--backgroundLight);
-    opacity: 0.9;
-    z-index: 4;
+    // opacity: 0.9;
+    z-index: 499;
     display: flex;
     top: 0;
     align-items: center;
     justify-content: center;
+    opacity: 1;
 }
 
-.check {
-    color: var(--red);
-    animation: example 1.5s ease;
-}
-
-@keyframes example {
+@keyframes spinner-opacity {
     0% {
-        opacity: 0.9;
-        font-size: 20px;
-    }
-    50% {
-        opacity: 0.9;
-        color: rgb(0, 255, 0);
-
-        font-size: 100px;
+        opacity: 0;
     }
     100% {
-        opacity: 0;
-        font-size: 50px;
-
-        display: none;
+        opacity: 1;
     }
 }

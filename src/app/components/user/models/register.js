@@ -4,7 +4,7 @@ const validationSchema = Yup.object().shape({
     email: Yup.string().trim().required("Podaj email.").label("Email").email(),
     login: Yup.string()
         .trim()
-        .required("Podaj login.")
+        .required("Podaj nazwe.")
         .min(5)
         .max(120)
         .label("Login"),

@@ -1,0 +1,43 @@
+{
+    "headers": {
+        "user": "Panel użytkownika",
+        "login": "Login",
+        "register": "Rejestracja",
+        "add": "Nowe",
+        "board": "tablica",
+        "sell": "ogłoszenia",
+        "newPost": "Nowe ogłoszenie",
+        "newSell": "Wystaw"
+    },
+    "actions": {
+        "login": "zaloguj",
+        "logout": "wyloguj",
+        "register": "zarejestruj",
+        "tryAgain": "ponów",
+        "edit": "edytuj",
+        "remove": "usuń",
+        "sell": "sprzedaj",
+        "post": "ogłoszenie",
+        "save": "opublikuj"
+    },
+    "info": {
+        "loggedAs": "Zalogowany jako:",
+        "currency": "zł",
+        "password": "hasło",
+        "price": "CENA",
+        "category": "KATEGORIA",
+        "email": "email",
+        "login": "nazwa",
+        "title": "Tytuł",
+        "description": "Opis..."
+    },
+    "buttons": {
+        "edit": "edytuj",
+        "delete": "usuń",
+        "remove": "usuń"
+    },
+    "user": {
+        "sell": "moja sprzedaż",
+        "posts": "moje posty"
+    }
+}

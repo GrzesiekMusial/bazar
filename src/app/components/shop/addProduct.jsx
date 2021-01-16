@@ -4,47 +4,53 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { validationSchema } from "./models/product";
+import config from "../../config/config.json";
 
 import * as Forms from "../common/form/forms";
 import * as base from "../../../methods/data";
+import Spinner from "./../common/spinner";
+import { useHistory } from "react-router-dom";
 
 const AddProduct = (props) => {
     const { title, history, match } = props;
     const [image, setImage] = useState([]);
     const [categories, setCategories] = useState(null);
     const [edit, setEdit] = useState(null);
+    const [load, setLoad] = useState(true);
+
+    const back = useHistory();
 
     useEffect(async () => {
-        title("sprzedaj");
+        title(config.headers.newSell);
         const cat = await base.getCategories();
         if (!cat) return history.push("/add");
         setCategories(cat);
 
-        if (!match.params.id) return;
+        if (!(await base.getOneProduct(match.params.id, setEdit, setImage)))
+            history.push("/add");
 
-        const prod = await base.getOneProduct(
-            match.params.id,
-            setEdit,
-            setImage
-        );
-        if (!prod) history.push("/add");
+        setLoad(false);
     }, []);
 
     const handleSave = async (values) => {
-        const result = await base.productSave(values, edit, image);
-        console.log(result);
-        // if (result) return history.push(`/bazar/product/${result._id}`);
+        try {
+            await base.productSave(values, edit, image);
+            if (props.location.back)
+                return back.push(props.location.back, props.location.state);
+            back.push("/bazar");
+        } catch (ex) {
+            setLoad(false);
+        }
     };
 
     const handleDelete = async (id) => {
-        console.log(id);
         const result = image.filter((img) => img !== id && img.name !== id);
-        console.log(result);
         setImage(result);
     };
 
     return (
         <div className="screen">
+            {load && <Spinner />}
             {categories && (
                 <div className="screen__container">
                     <div className="addBoard">
@@ -72,10 +78,13 @@ const AddProduct = (props) => {
                                           text: "",
                                           title: "",
                                           price: "",
-                                          category: categories[0]._id,
+                                          category: "5fd8b9b913047e50104c37bd",
                                       }
                             }
-                            onSubmit={(values) => handleSave(values, image)}
+                            onSubmit={(values) => {
+                                handleSave(values, image);
+                                setLoad(true);
+                            }}
                             validationSchema={validationSchema}
                         >
                             {({}) => (
@@ -83,22 +92,22 @@ const AddProduct = (props) => {
                                     <Forms.Input
                                         className="addBoard__title"
                                         name="title"
-                                        placeholder="Nazwa"
+                                        placeholder={config.info.title}
                                         defaultValue={edit ? edit.title : null}
                                     />
 
                                     <Forms.Text
                                         className="addBoard__text"
                                         name="text"
-                                        placeholder="Opis..."
+                                        placeholder={config.info.description}
                                         defaultValue={edit ? edit.text : null}
                                     />
 
                                     <div className="addBoard__details">
                                         <div>
                                             <Forms.Input
-                                                label="CENA"
-                                                placeholder="cena"
+                                                label={config.info.price}
+                                                placeholder={config.info.price.toLowerCase()}
                                                 name="price"
                                                 id="price"
                                                 className="addBoard__details--price"
@@ -111,7 +120,7 @@ const AddProduct = (props) => {
                                         <div>
                                             {categories && (
                                                 <Forms.Select
-                                                    label="KATEGORIA"
+                                                    label={config.info.category}
                                                     arr={categories}
                                                     id="category"
                                                     name="category"
@@ -119,7 +128,7 @@ const AddProduct = (props) => {
                                                     defaultValue={
                                                         edit
                                                             ? edit.category._id
-                                                            : null
+                                                            : "5fd8b9b913047e50104c37bd"
                                                     }
                                                 />
                                             )}
@@ -129,9 +138,7 @@ const AddProduct = (props) => {
                                     <div className="addBoard__buttons">
                                         <Forms.Submit
                                             className="actionBtn"
-                                            title={
-                                                edit ? "ZAPISZ" : "OPUBLIKUJ"
-                                            }
+                                            title={config.actions.save}
                                         />
                                     </div>
                                 </>

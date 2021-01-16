@@ -6,22 +6,21 @@ import { cubby } from "./cubby";
 const checkBase = async (cubby, base) => {
     const maxTime = 600000;
     if (!cubby.data || cubby.time - Date.now() > maxTime) {
-        console.log("pobieram");
         cubby.time = Date.now();
         const result = await base.get();
         let final;
-        final = cubby.data = result.data;
+        final = cubby.data = result.data.reverse();
         return final;
     } else return cubby.data;
 };
 
 const getOne = async (id, base, setData = null, setImage = null) => {
     if (id) {
-        const value = await base.filter(async (item) => item._id === id)[0];
-        console.log(value, " VALUE");
+        const value = base.filter((item) => item._id === id);
         if (!setData) return value;
-        setData(value);
-        if (setImage) setImage(value.images);
+
+        setData(value[0]);
+        if (setImage) setImage(value[0].images);
     }
     return true;
 };
@@ -50,12 +49,11 @@ const getProducts = async (setData = null) => {
 
 const getCategories = async (withAll = false, setData = false) => {
     const categories = await checkBase(cubby.categories, categoriesBase);
-    console.log(categories, "categories");
     const result = withAll
-        ? [{ _id: "0", name: "wszystkie" }, ...categories]
+        ? [{ _id: 0, name: "wszystkie" }, ...categories]
         : [...categories];
 
-    if (setData) return setData(result);
+    if (setData) setData(result);
     return result;
 };
 

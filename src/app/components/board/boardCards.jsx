@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
-import ImageSlider from "../common/imageSlider";
+import config from "../../config/config.json";
+
 import SearchBox from "../common/searchBox";
-import AcceptModal from "../common/modal";
 
 import { dataFilter } from "../../../methods/filter";
 import * as base from "../../../methods/data";
 import * as Forms from "../common/form/forms";
+import Spinner from "../common/spinner";
+import Post from "./post";
 
-const BoardCards = (props) => {
+const BoardCards = (props, toast) => {
     const [data, setData] = useState(null);
-    const [category, setCategory] = useState("0");
-    const [text, setText] = useState("");
-    const [modal, setModal] = useState(false);
+    const [category, setCategory] = useState(0);
+    const [text, setText] = useState(0);
     const [error, setError] = useState(null);
+    const [load, setLoad] = useState(true);
 
-    const { user, renderImage, title, history } = props;
+    const { user, renderImage, title, history, match } = props;
 
     useEffect(() => {
         title(
-            `tablica ${category === "0" ? "" : "| " + category.toLowerCase()} ${
-                text === "" ? "" : " ~ " + text.toLowerCase()
-            }`
+            `${config.headers.board} ${
+                category == 0 ? "" : "| " + category.toLowerCase()
+            } ${text == 0 ? "" : " ~ " + text.toLowerCase()}`
         );
     }, [category, text]);
 
@@ -33,31 +33,12 @@ const BoardCards = (props) => {
         } catch (ex) {
             setError("Cant load data, plese try again");
         }
+        setLoad(false);
     }, []);
-
-    function expand(e) {
-        while (!e.target.classList.contains("board"))
-            e.target = e.target.parentElement;
-
-        const arr = e.target.children;
-
-        for (let i = 0; i < arr.length; i++) {
-            arr[i].classList.toggle("show");
-            if (i === arr.length - 1) arr[i].classList.toggle("end");
-        }
-    }
-
-    const handleDelete = async (card) => {
-        const result = await base.noticeDelete(card);
-        if (result) {
-            setData(data.filter((notice) => notice._id !== card._id));
-            setModal(false);
-        }
-    };
 
     return (
         <div className="screen">
-            <ToastContainer />
+            {load && <Spinner />}
 
             {error && <Forms.Error error={error} visible={error} />}
 
@@ -68,60 +49,11 @@ const BoardCards = (props) => {
                     status={{ category: category, text: text }}
                 />
 
-                {dataFilter(data, category, text).map((card) => (
-                    <div className="board">
-                        <div
-                            className="board__title"
-                            onClick={(e) => expand(e)}
-                        >
-                            <span>{card.title}</span>
-                        </div>
-
-                        <div className="board__content">
-                            <div className="board__content--images">
-                                {card.images && (
-                                    <ImageSlider
-                                        images={card.images}
-                                        handleClick={(i, index, arr) =>
-                                            renderImage(arr, index)
-                                        }
-                                    />
-                                )}
-                            </div>
-
-                            {card.text && <p>{card.text}</p>}
-
-                            {user && user._id === card.author._id && !modal && (
-                                <div className="board__delete">
-                                    <button
-                                        className="actionBtn edit"
-                                        onClick={() =>
-                                            history.push(
-                                                `/board/edit/${card._id}`
-                                            )
-                                        }
-                                    >
-                                        EDYTUJ
-                                    </button>
-                                    <button
-                                        className="actionBtn delete"
-                                        onClick={() => setModal(true)}
-                                    >
-                                        USUŃ
-                                    </button>
-                                </div>
-                            )}
-
-                            {modal && (
-                                <AcceptModal
-                                    close={setModal}
-                                    accept={() => handleDelete(card)}
-                                    title={`Potwierdź operację usunięcia ${card.title}`}
-                                />
-                            )}
-                        </div>
-                    </div>
-                ))}
+                {dataFilter(data, category, text, match.params.id).map(
+                    (card) => (
+                        <Post card={card} {...props} />
+                    )
+                )}
             </div>
         </div>
     );

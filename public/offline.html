@@ -21,26 +21,11 @@
         <link rel="manifest" href="./manifest.json" />
         <link rel="manifest" href="./manifest.json" />
 
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-            href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap"
-            rel="stylesheet"
-        />
-
         <title>Bazar</title>
     </head>
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <div id="root"></div>
-        <script>
-            if ("serviceWorker" in navigator) {
-                window.addEventListener("load", () => {
-                    navigator.serviceWorker
-                        .register("./serviceworker.js")
-                        .then((reg) => console.log("Success: ", reg.scope))
-                        .catch((err) => console.log("Failure: ", err));
-                });
-            }
-        </script>
+        <p>NO INTERNET CONNECTION...</p>
     </body>
 </html>

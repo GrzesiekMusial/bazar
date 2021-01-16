@@ -12,6 +12,9 @@ import {
 } from "react-icons/bi";
 import { CgAddR as AddNew } from "react-icons/cg";
 
+import { ToastContainer, Flip } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import ProductDetails from "./app/components/shop/productDetails";
 import ProductCards from "./app/components/shop/productCards";
 import BoardCards from "./app/components/board/boardCards";
@@ -24,11 +27,9 @@ import Buttons from "./app/components/common/buttons";
 import Login from "./app/components/user/login";
 import Register from "./app/components/user/register";
 import ProtectedRoute from "./app/components/common/protectedRoute";
-import Spinner from "./app/components/common/spinner";
 
 import * as auth from "./services/auth";
 import * as imagesBase from "./services/images";
-import { apiClient } from "./services/client";
 
 import { ImCheckboxChecked } from "react-icons/im";
 
@@ -65,8 +66,8 @@ class App extends Component {
         this.setState({ images: img, photoIndex: index, isOpen: true });
     };
 
-    renderUser = () => {
-        const resp = auth.getUser();
+    renderUser = async () => {
+        const resp = await auth.getUser();
         if (resp) this.setState({ user: resp });
     };
 
@@ -82,12 +83,31 @@ class App extends Component {
     }
 
     render(props) {
-        const { isOpen, photoIndex } = this.state;
+        const {
+            isOpen,
+            photoIndex,
+            header,
+            user,
+            images,
+            buttons,
+        } = this.state;
 
         return (
             <div>
-                <Header title={this.state.header} />
-                {this.state.load === true && <Spinner />}
+                <ToastContainer
+                    position="top-right"
+                    autoClose={2500}
+                    hideProgressBar
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss={false}
+                    draggable
+                    pauseOnHover={false}
+                    transition={Flip}
+                />
+
+                <Header title={header} />
                 {this.state.check && (
                     <div className="spinner check">
                         <ImCheckboxChecked />
@@ -119,10 +139,10 @@ class App extends Component {
                     />
 
                     <Route
-                        path="/board"
+                        path="/board/:id?"
                         render={(props) => (
                             <BoardCards
-                                user={this.state.user}
+                                user={user}
                                 title={this.renderTitle}
                                 renderImage={this.renderImage}
                                 {...props}
@@ -142,27 +162,26 @@ class App extends Component {
                             <ProductDetails
                                 title={this.renderTitle}
                                 renderImage={this.renderImage}
-                                user={this.state.user}
+                                user={user}
                                 {...props}
                             />
                         )}
                     />
 
                     <Route
-                        path="/bazar/:category?/:text?"
-                        render={(props, match) => (
+                        path="/bazar/:id?"
+                        render={(props, match, user) => (
                             <ProductCards title={this.renderTitle} {...props} />
                         )}
                     />
 
                     <Route
                         path="/login"
-                        user={this.state.user}
                         render={(props) => (
                             <Login
                                 {...props}
                                 title={this.renderTitle}
-                                user={this.state.user}
+                                user={user}
                             />
                         )}
                     />
@@ -179,41 +198,30 @@ class App extends Component {
 
                 <Test />
 
-                {this.state.buttons && (
-                    <Buttons
-                        buttons={this.state.buttons}
-                        user={this.state.user}
-                    />
-                )}
+                {buttons && <Buttons buttons={buttons} user={user} />}
 
                 {isOpen && (
                     <Lightbox
-                        mainSrc={imagesBase.get(this.state.images[photoIndex])}
+                        mainSrc={imagesBase.get(images[photoIndex])}
                         nextSrc={imagesBase.get(
-                            this.state.images[
-                                (photoIndex + 1) % this.state.images.length
-                            ]
+                            images[(photoIndex + 1) % images.length]
                         )}
                         prevSrc={imagesBase.get(
-                            this.state.images[
-                                (photoIndex + this.state.images.length - 1) %
-                                    this.state.images.length
+                            images[
+                                (photoIndex + images.length - 1) % images.length
                             ]
                         )}
                         onCloseRequest={() => this.setState({ isOpen: false })}
                         onMovePrevRequest={() =>
                             this.setState({
                                 photoIndex:
-                                    (photoIndex +
-                                        this.state.images.length -
-                                        1) %
-                                    this.state.images.length,
+                                    (photoIndex + images.length - 1) %
+                                    images.length,
                             })
                         }
                         onMoveNextRequest={() =>
                             this.setState({
-                                photoIndex:
-                                    (photoIndex + 1) % this.state.images.length,
+                                photoIndex: (photoIndex + 1) % images.length,
                             })
                         }
                     />

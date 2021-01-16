@@ -10,7 +10,6 @@ const SearchBox = ({
     handleSearch = null,
     handleCategorySearch = null,
     status,
-    filtr = true,
     search = true,
 }) => {
     const searchOpen = () => {
@@ -23,8 +22,8 @@ const SearchBox = ({
 
     return (
         <>
-            {filtr &&
-                ((status.category === "0" && (
+            {categories &&
+                ((status.category == 0 && (
                     <BsFilterLeft
                         className="icon icon--category"
                         onClick={CategoryOpen}
@@ -37,7 +36,7 @@ const SearchBox = ({
                 ))}
 
             {search &&
-                ((status.text === "" && (
+                ((status.text == 0 && (
                     <BiSearchAlt
                         className="icon icon--search"
                         onClick={searchOpen}
@@ -49,7 +48,7 @@ const SearchBox = ({
                     />
                 ))}
 
-            {filtr && (
+            {categories && (
                 <select
                     className="searchBox searchBox--select"
                     id="categoryBox"

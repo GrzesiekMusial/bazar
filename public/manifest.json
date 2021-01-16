@@ -1,6 +1,6 @@
 {
-    "short_name": "BBazar",
-    "name": "Bagry Bazar App PWA",
+    "short_name": "Bazar",
+    "name": "Bazar App PWA",
     "icons": [
         {
             "src": "/images/logo.png",

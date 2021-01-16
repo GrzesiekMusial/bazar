@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { toast, Flip } from "react-toastify";
 
 import * as noticeBase from "../services/notices";
 import * as productBase from "../services/products";
@@ -17,10 +17,11 @@ const save = async (item, edit, image, base, cubby) => {
     item.images = await checkImage(image);
 
     const form = new FormData();
-    console.log("IMAGES ", item.images);
-    console.log(item.images, "IMAGES");
+
     if (item.images.new.length > 0)
-        await item.images.new.forEach(async (img) => form.append("file", img));
+        for (const img of item.images.new) {
+            form.append("file", img);
+        }
     form.append("title", item.title);
     form.append("text", item.text);
     form.append("price", item.price);
@@ -28,24 +29,62 @@ const save = async (item, edit, image, base, cubby) => {
 
     let response;
     if (edit) {
-        if (item.images.old.length > 0) form.append("images", item.images.old);
+        if (item.images.old.length > 0)
+            for (const img of item.images.old) {
+                form.append("images", img);
+            }
+
         form.append("_id", edit._id);
+
         response = await base.edit(edit._id, form);
     } else {
         response = await base.add(form);
     }
-    console.log(response.data);
-    if (!response.ok) throw toast.error("Error occured on saving!");
-    if (cubby.data) cubby.data.push(response.data);
-    return response.data;
+    if (!response.ok)
+        throw toast.error("Can't save! please check internet connection", {
+            position: "top-right",
+            autoClose: 2500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            transition: Flip,
+        });
+    if (cubby.data) {
+        if (edit) {
+            cubby.data = cubby.data.filter((item) => item._id !== edit._id);
+        }
+
+        const newCube = response.data.item;
+
+        if (response.data.item.category) {
+            const id = newCube.category;
+            newCube.category = {};
+            newCube.category._id = id;
+        }
+        newCube.author = response.data.author;
+        cubby.data.unshift(newCube);
+    }
+    toast.success("saved", {
+        position: "top-right",
+        autoClose: 2500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        transition: Flip,
+    });
+    return response.data.item;
 };
 
 const checkImage = async (images) => {
     const result = { old: [], new: [] };
 
-    await images.forEach((img) =>
-        typeof img === "string" ? result.old.push(img) : result.new.push(img)
-    );
+    for await (const img of images) {
+        typeof img === "string" ? result.old.push(img) : result.new.push(img);
+    }
 
     return result;
 };

@@ -1,7 +1,8 @@
-const Spinner = () => {
+const SpinnerWait = (cover) => {
     return (
-        <div className="spinner">
+        <div className="spinner spinner-cover">
             <div id="output" className="container"></div>
+
             <div className="lds-facebook">
                 <div></div>
                 <div></div>
@@ -11,4 +12,4 @@ const Spinner = () => {
     );
 };
 
-export default Spinner;
+export default SpinnerWait;
