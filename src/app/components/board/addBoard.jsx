@@ -21,15 +21,17 @@ const AddBoard = (props) => {
         title(config.headers.newPost);
     }, [title]);
 
-    async function fetchData() {
-        try {
-            await base.getOneNotice(match.params.id, setEdit, setImage);
-            return setLoad(false);
-        } catch (ex) {
-            return back.push(props.location.back, props.location.state);
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                await base.getOneNotice(match.params.id, setEdit, setImage);
+                return setLoad(false);
+            } catch (ex) {
+                back.push("/board");
+            }
         }
-    }
-    fetchData();
+        fetchData();
+    }, [match.params.id, back]);
 
     const handleSave = async (values) => {
         try {

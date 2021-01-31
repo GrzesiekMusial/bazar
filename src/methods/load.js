@@ -1,6 +1,8 @@
 import * as noticesBase from "../services/notices";
 import * as productsBase from "../services/products";
 import * as categoriesBase from "../services/categories";
+import { toast } from "react-toastify";
+
 import { cubby } from "./cubby";
 
 const checkBase = async (cubby, base) => {
@@ -17,6 +19,8 @@ const checkBase = async (cubby, base) => {
 const getOne = async (id, base, setData = null, setImage = null) => {
     if (id) {
         const value = base.filter((item) => item._id === id);
+        if (value === false) throw toast.error("Product not found!");
+
         if (!setData) return value;
 
         setData(value[0]);

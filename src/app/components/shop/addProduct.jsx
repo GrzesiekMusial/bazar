@@ -28,16 +28,11 @@ const AddProduct = (props) => {
                 const cat = await base.getCategories();
                 if (!cat) return history.push("/add");
                 setCategories(cat);
-                if (
-                    !(await base.getOneProduct(
-                        match.params.id,
-                        setEdit,
-                        setImage
-                    ))
-                )
-                    history.push("/add");
+                await base.getOneProduct(match.params.id, setEdit, setImage);
                 setLoad(false);
-            } catch (ex) {}
+            } catch (ex) {
+                history.push("/bazar");
+            }
         }
 
         fetchData();

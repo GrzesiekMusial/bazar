@@ -18,12 +18,17 @@ function ProductDetails(props) {
     const [load, setLoad] = useState(true);
     const back = useHistory();
 
-    async function fetchData() {
-        if (!(await base.getOneProduct(match.params.id, setCard, null)))
-            back.push(props.location.back, props.location.state);
-        setLoad(false);
-    }
-    fetchData();
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                await base.getOneProduct(match.params.id, setCard, null);
+                setLoad(false);
+            } catch (ex) {
+                back.push("/bazar");
+            }
+        }
+        fetchData();
+    }, [match.params.id, back]);
 
     useEffect(() => {
         if (card) title(card.title);
