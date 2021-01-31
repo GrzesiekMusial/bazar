@@ -9,23 +9,27 @@ import * as base from "../../../methods/data";
 import Spinner from "../common/spinner";
 import { useHistory } from "react-router-dom";
 
-const AddBoard = (props, toast) => {
+const AddBoard = (props) => {
     const [image, setImage] = useState([]);
     const [edit, setEdit] = useState(null);
     const [load, setLoad] = useState(true);
 
-    const { title, history, match } = props;
+    const { title, match } = props;
     const back = useHistory();
 
-    useEffect(async () => {
+    useEffect(() => {
+        title(config.headers.newPost);
+    }, [title]);
+
+    async function fetchData() {
         try {
-            title(config.headers.newPost);
             await base.getOneNotice(match.params.id, setEdit, setImage);
-            setLoad(false);
+            return setLoad(false);
         } catch (ex) {
             return back.push(props.location.back, props.location.state);
         }
-    }, []);
+    }
+    fetchData();
 
     const handleSave = async (values) => {
         try {
@@ -75,7 +79,7 @@ const AddBoard = (props, toast) => {
                         }}
                         validationSchema={validationSchema}
                     >
-                        {({}) => (
+                        {() => (
                             <>
                                 <Forms.Input
                                     className="addBoard__title"

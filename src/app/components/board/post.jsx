@@ -1,17 +1,16 @@
-import ImageSlider from "../common/imageSlider";
-import SearchBox from "../common/searchBox";
-import { dataFilter } from "../../../methods/filter";
-import * as time from "../../../methods/time";
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
+
 import AcceptModal from "../common/modal";
+import ImageSlider from "../common/imageSlider";
+import * as time from "../../../methods/time";
 import * as base from "../../../methods/data";
 import config from "../../config/config.json";
-import { NavLink } from "react-router-dom";
 
 const Post = ({ card, ...props }) => {
     const [modal, setModal] = useState(false);
 
-    const { user, renderImage, history, location } = props;
+    const { user, renderImage, location } = props;
 
     const handleDelete = async (card) => {
         try {

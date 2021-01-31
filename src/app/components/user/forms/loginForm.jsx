@@ -1,14 +1,15 @@
-import { validationSchema } from "../models/login";
-import { RiUserAddLine } from "react-icons/ri";
 import React, { useState } from "react";
 import { pick } from "lodash";
-import Spinner from "../../common/spinner";
-import * as auth from "../../../../services/auth";
-import config from "../../../config/config.json";
 import { toast } from "react-toastify";
-
 import { NavLink } from "react-router-dom";
 import { Formik } from "formik";
+
+import { RiUserAddLine } from "react-icons/ri";
+
+import { validationSchema } from "../models/login";
+import Spinner from "../../common/spinner";
+import config from "../../../config/config.json";
+import * as auth from "../../../../services/auth";
 
 import AddInputBox from "../../common/form/addInputBox.jsx";
 import AddSubmitButton from "../../common/form/submitButton.jsx";
@@ -45,7 +46,7 @@ const LoginForm = ({ redirect }) => {
                 onSubmit={(values) => handleLogin(values)}
                 validationSchema={validationSchema}
             >
-                {({}) => (
+                {() => (
                     <>
                         <div className="login__buttons">
                             <NavLink to="/register">

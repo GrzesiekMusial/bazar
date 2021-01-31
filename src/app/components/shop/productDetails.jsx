@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import ImageSlider from "../common/imageSlider";
 import AcceptModal from "../common/modal";
+import Spinner from "./../common/spinner";
 
 import * as Forms from "../common/form/forms";
 import * as time from "../../../methods/time";
 import * as base from "../../../methods/data";
-import { NavLink } from "react-router-dom";
-import Spinner from "./../common/spinner";
-import { useHistory } from "react-router-dom";
 import config from "../../config/config.json";
 
 function ProductDetails(props) {
@@ -18,15 +18,16 @@ function ProductDetails(props) {
     const [load, setLoad] = useState(true);
     const back = useHistory();
 
-    useEffect(async () => {
+    async function fetchData() {
         if (!(await base.getOneProduct(match.params.id, setCard, null)))
             back.push(props.location.back, props.location.state);
         setLoad(false);
-    }, []);
+    }
+    fetchData();
 
     useEffect(() => {
         if (card) title(card.title);
-    }, [card]);
+    }, [card, title]);
 
     const handleDelete = async (card) => {
         try {

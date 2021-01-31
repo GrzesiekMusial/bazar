@@ -2,12 +2,14 @@ import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 const Add = (props) => {
+    const { title } = props;
+
     useEffect(() => {
-        props.title("dodaj");
-    }, []);
+        title("dodaj");
+    }, [title]);
 
     return (
-        <div className="screen screen--center">
+        <main className="screen screen--center">
             <div className="add">
                 <div className="add__buttons">
                     <NavLink to={"/bazar/add"}>
@@ -18,7 +20,7 @@ const Add = (props) => {
                     </NavLink>
                 </div>
             </div>
-        </div>
+        </main>
     );
 };
 

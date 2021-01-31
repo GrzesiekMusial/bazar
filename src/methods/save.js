@@ -1,4 +1,4 @@
-import { toast, Flip } from "react-toastify";
+import { toast } from "react-toastify";
 
 import * as noticeBase from "../services/notices";
 import * as productBase from "../services/products";
@@ -13,21 +13,7 @@ const productSave = async (item, edit, image) => {
     return await save(item, edit, image, productBase, cubby.products);
 };
 
-const save = async (item, edit, image, base, cubby) => {
-    item.images = await checkImage(image);
-
-    const form = new FormData();
-
-    if (item.images.new.length > 0)
-        for (const img of item.images.new) {
-            form.append("file", img);
-        }
-    form.append("title", item.title);
-    form.append("text", item.text);
-    form.append("price", item.price);
-    form.append("category", item.category);
-
-    let response;
+const baseCall = async (item, edit, form, base) => {
     if (edit) {
         if (item.images.old.length > 0)
             for (const img of item.images.old) {
@@ -36,12 +22,13 @@ const save = async (item, edit, image, base, cubby) => {
 
         form.append("_id", edit._id);
 
-        response = await base.edit(edit._id, form);
+        return await base.edit(edit._id, form);
     } else {
-        response = await base.add(form);
+        return await base.add(form);
     }
-    if (!response.ok)
-        throw toast.error("Can't save! please check internet connection");
+};
+
+const saveCubby = async (cubby, edit, response) => {
     if (cubby.data) {
         if (edit) {
             cubby.data = cubby.data.filter((item) => item._id !== edit._id);
@@ -57,6 +44,31 @@ const save = async (item, edit, image, base, cubby) => {
         newCube.author = response.data.author;
         cubby.data.unshift(newCube);
     }
+    return;
+};
+
+const save = async (item, edit, image, base, cubby) => {
+    item.images = await checkImage(image);
+
+    const form = new FormData();
+
+    if (item.images.new.length > 0)
+        for (const img of item.images.new) {
+            form.append("file", img);
+        }
+
+    form.append("title", item.title);
+    form.append("text", item.text);
+    form.append("price", item.price);
+    form.append("category", item.category);
+
+    const response = await baseCall(item, edit, form, base);
+
+    if (!response.ok)
+        throw toast.error("Can't save! please check internet connection");
+
+    await saveCubby(cubby, edit, response);
+
     toast.success("saved");
     return response.data.item;
 };

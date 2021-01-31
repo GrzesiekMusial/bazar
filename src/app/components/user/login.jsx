@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { NavLink } from "react-router-dom";
 
 import config from "../../config/config.json";
 
-import * as auth from "../../../services/auth";
+import { logout } from "../../../services/auth";
 
 import LoginForm from "./forms/loginForm";
-import { NavLink } from "react-router-dom";
 
 const Login = (props) => {
     const { user, title, location } = props;
@@ -18,7 +18,7 @@ const Login = (props) => {
 
     useEffect(() => {
         title(user ? config.headers.user : config.headers.login);
-    }, []);
+    }, [title, user]);
 
     return (
         <main className="screen">
@@ -33,7 +33,7 @@ const Login = (props) => {
                         <div className="login__buttons">
                             <button
                                 className="actionBtn"
-                                onClick={() => auth.logout()}
+                                onClick={() => logout()}
                             >
                                 {config.actions.logout}
                             </button>

@@ -15,7 +15,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import Spinner from "./../common/spinner";
 import Card from "./card";
 function ProductCards(props) {
-    const { title, history, match, location, user } = props;
+    const { title, history, match, location } = props;
     const [data, setData] = useState(null);
     const [categories, setCategories] = useState(null);
     const [category, setCategory] = useState(
@@ -30,17 +30,17 @@ function ProductCards(props) {
     useEffect(() => {
         const cat =
             categories && category
-                ? categories.filter((cat) => cat._id == category)[0].name
+                ? categories.filter((cat) => cat._id === category)[0].name
                 : 0;
 
         const name = config.headers.sell;
 
         title(
-            `${name} ${category == 0 ? "" : "| " + cat} ${
-                text == 0 ? "" : " ~ " + text.toLowerCase()
+            `${name} ${category === 0 ? "" : "| " + cat} ${
+                text === 0 ? "" : " ~ " + text.toLowerCase()
             }`
         );
-    }, [categories, category, text]);
+    }, [categories, category, text, title]);
 
     useEffect(() => {
         loadData();
@@ -73,8 +73,9 @@ function ProductCards(props) {
 
             <div className="cards">
                 {dataFilter(data, category, text, match.params.id).map(
-                    (card) => (
+                    (card, index) => (
                         <NavLink
+                            key={`card-${index}`}
                             to={{
                                 pathname: "/bazar/product/" + card._id,
                                 state: { category, text },

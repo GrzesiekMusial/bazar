@@ -25,13 +25,10 @@ const AddSelectBox = ({
                 onChange={handleChange(name)}
                 onBlur={() => setFieldTouched(name)}
                 {...otherProps}
-                defaultValue={defaultValue}
+                value={defaultValue}
             >
-                {arr.map((cat) => (
-                    <option
-                        selected={defaultValue === cat._id ? true : false}
-                        value={cat._id}
-                    >
+                {arr.map((cat, index) => (
+                    <option key={`select-${index}`} value={cat._id}>
                         {cat.name}
                     </option>
                 ))}

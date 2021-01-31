@@ -1,8 +1,6 @@
 import React from "react";
 
-import { BsFilterLeft } from "react-icons/bs";
 import { BiSearchAlt } from "react-icons/bi";
-import { IoFilterCircleOutline } from "react-icons/io5";
 import { AiOutlineFileSearch } from "react-icons/ai";
 
 import config from "../../config/config.json";
@@ -23,7 +21,7 @@ const SearchBox = ({
     return (
         <>
             {search &&
-                ((status.text == 0 && (
+                ((status.text === 0 && (
                     <BiSearchAlt
                         className="icon icon--search"
                         onClick={searchOpen}
@@ -38,7 +36,7 @@ const SearchBox = ({
             <div className="searchBox" id="searchBox">
                 {categories && (
                     <>
-                        <label for="searchBoxSelect">
+                        <label htmlFor="categoryBox">
                             {config.info.selectCategory}
                         </label>
 
@@ -54,20 +52,25 @@ const SearchBox = ({
                             }
                         >
                             {categories &&
-                                categories.map((cat) => (
-                                    <option value={cat._id}>{cat.name}</option>
+                                categories.map((cat, index) => (
+                                    <option
+                                        key={`category-${index}`}
+                                        value={cat._id}
+                                    >
+                                        {cat.name}
+                                    </option>
                                 ))}
                         </select>
                     </>
                 )}
                 {search && (
                     <>
-                        <label for="searchBoxText">
+                        <label htmlFor="textBox">
                             {config.info.searchText}
                         </label>
 
                         <input
-                            id="searchBoxText"
+                            id="textBox"
                             className=" searchBox--window"
                             onChange={(e) =>
                                 handleSearch(e.currentTarget.value)

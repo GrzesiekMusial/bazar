@@ -2,15 +2,15 @@ import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({
     title: Yup.string()
-        .required("Nazwa jest wymagana.")
+        .required("Title required.")
         .min(3)
-        .typeError("Nieprawidłowa wartość.")
+        .typeError("Min 3 char required.")
         .max(120)
-        .label("Nazwa"),
+        .label("Title"),
     text: Yup.string().max(6000),
     images: Yup.array(),
     price: Yup.number()
-        .typeError("Nieprawidłowa wartość.")
+        .typeError("incorrect value.")
         .max(9000000)
         .test("is-decimal", "invalid decimal", (value) =>
             (value + "").match(/d*/)

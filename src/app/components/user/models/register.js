@@ -1,10 +1,14 @@
 import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({
-    email: Yup.string().trim().required("Podaj email.").label("Email").email(),
+    email: Yup.string()
+        .trim()
+        .required("Email required.")
+        .label("Email")
+        .email(),
     login: Yup.string()
         .trim()
-        .required("Podaj nazwe.")
+        .required("Name required..")
         .min(5)
         .max(120)
         .label("Login"),

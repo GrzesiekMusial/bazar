@@ -1,5 +1,5 @@
 import { apiClient as client } from "./client";
-import jwtDecode, { InvalidTokenError } from "jwt-decode";
+import jwtDecode from "jwt-decode";
 
 const endpoint = "/auth";
 

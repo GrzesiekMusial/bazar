@@ -33,7 +33,7 @@ const ImageSlider = ({ images, handleClick = false }) => {
     return (
         <Swiper {...params}>
             {imagesList.map((img, index, arr) => (
-                <div className="imageSlider">
+                <div key={`slide-${index}`} className="imageSlider">
                     <ImageLoader
                         onClick={() => handleClick(img, index, arr)}
                         image={img}

@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Formik } from "formik";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useHistory } from "react-router-dom";
 
 import { validationSchema } from "./models/product";
-import config from "../../config/config.json";
+import Spinner from "./../common/spinner";
 
+import config from "../../config/config.json";
 import * as Forms from "../common/form/forms";
 import * as base from "../../../methods/data";
-import Spinner from "./../common/spinner";
-import { useHistory } from "react-router-dom";
 
 const AddProduct = (props) => {
     const { title, history, match } = props;
@@ -20,17 +18,30 @@ const AddProduct = (props) => {
 
     const back = useHistory();
 
-    useEffect(async () => {
+    useEffect(() => {
         title(config.headers.newSell);
-        const cat = await base.getCategories();
-        if (!cat) return history.push("/add");
-        setCategories(cat);
+    }, [title]);
 
-        if (!(await base.getOneProduct(match.params.id, setEdit, setImage)))
-            history.push("/add");
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const cat = await base.getCategories();
+                if (!cat) return history.push("/add");
+                setCategories(cat);
+                if (
+                    !(await base.getOneProduct(
+                        match.params.id,
+                        setEdit,
+                        setImage
+                    ))
+                )
+                    history.push("/add");
+                setLoad(false);
+            } catch (ex) {}
+        }
 
-        setLoad(false);
-    }, []);
+        fetchData();
+    }, [history, match.params.id]);
 
     const handleSave = async (values) => {
         try {
@@ -54,8 +65,6 @@ const AddProduct = (props) => {
             {categories && (
                 <div className="screen__container">
                     <div className="addBoard">
-                        <ToastContainer />
-
                         <div className="addBoard__images">
                             <Forms.Image
                                 handleChange={setImage}
@@ -87,7 +96,7 @@ const AddProduct = (props) => {
                             }}
                             validationSchema={validationSchema}
                         >
-                            {({}) => (
+                            {() => (
                                 <>
                                     <Forms.Input
                                         className="addBoard__title"

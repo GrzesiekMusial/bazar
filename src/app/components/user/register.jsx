@@ -38,7 +38,7 @@ const Register = (props) => {
                 login: Yup.string()
                     .trim()
                     .notOneOf(logins, "That name is already taken.")
-                    .required("Podaj nazwe.")
+                    .required("Name required.")
                     .min(5)
                     .max(120)
                     .label("Login"),
@@ -56,10 +56,7 @@ const Register = (props) => {
 
     useEffect(() => {
         title(config.headers.register);
-    }, []);
-
-    const checkUser = () => {};
-    const checEmail = () => {};
+    }, [title]);
 
     const handleRegister = async (user) => {
         setLoad(true);
@@ -90,7 +87,7 @@ const Register = (props) => {
                 onSubmit={(values) => handleRegister(values)}
                 validationSchema={schema}
             >
-                {({}) => (
+                {() => (
                     <>
                         <div className="login">
                             <div className="login__buttons">

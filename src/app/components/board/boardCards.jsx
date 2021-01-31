@@ -12,28 +12,31 @@ import Post from "./post";
 
 const BoardCards = (props, toast) => {
     const [data, setData] = useState(null);
-    const [category, setCategory] = useState(0);
+    const [category] = useState(0);
     const [text, setText] = useState(0);
     const [error, setError] = useState(null);
     const [load, setLoad] = useState(true);
 
-    const { user, renderImage, title, history, match } = props;
+    const { title, match } = props;
 
     useEffect(() => {
         title(
             `${config.headers.board} ${
-                category == 0 ? "" : "| " + category.toLowerCase()
-            } ${text == 0 ? "" : " ~ " + text.toLowerCase()}`
+                category === 0 ? "" : "| " + category.toLowerCase()
+            } ${text === 0 ? "" : " ~ " + text.toLowerCase()}`
         );
-    }, [category, text]);
+    }, [category, text, title]);
 
-    useEffect(async () => {
-        try {
-            await base.getNotices(setData);
-        } catch (ex) {
-            setError("Cant load data, plese try again");
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                await base.getNotices(setData);
+            } catch (ex) {
+                setError("Cant load data, plese try again");
+            }
+            setLoad(false);
         }
-        setLoad(false);
+        fetchData();
     }, []);
 
     return (
@@ -49,8 +52,8 @@ const BoardCards = (props, toast) => {
 
             <div>
                 {dataFilter(data, category, text, match.params.id).map(
-                    (card) => (
-                        <Post card={card} {...props} />
+                    (card, index) => (
+                        <Post key={`card-${index}`} card={card} {...props} />
                     )
                 )}
             </div>

@@ -18,7 +18,6 @@ import "react-toastify/dist/ReactToastify.css";
 import ProductDetails from "./app/components/shop/productDetails";
 import ProductCards from "./app/components/shop/productCards";
 import BoardCards from "./app/components/board/boardCards";
-import Test from "./app/components/other/home";
 import AddProduct from "./app/components/shop/addProduct";
 import AddBoard from "./app/components/board/addBoard";
 import Header from "./app/components/common/header";
@@ -49,10 +48,10 @@ class App extends Component {
         const userBtn = this.state.user ? <UserLogged /> : <UserNotLogged />;
 
         const buttons = [
-            { name: <Board />, ref: "/board" },
-            { name: <Bazar />, ref: "/bazar" },
-            { name: <AddNew />, ref: "/add" },
-            { name: userBtn, ref: "/login" },
+            { name: <Board />, ref: "/board", info: "board" },
+            { name: <Bazar />, ref: "/bazar", info: "bazar" },
+            { name: <AddNew />, ref: "/add", info: "add" },
+            { name: userBtn, ref: "/login", info: "user" },
         ];
 
         this.setState({ buttons: buttons });
@@ -195,8 +194,6 @@ class App extends Component {
 
                     <Redirect to="/board" />
                 </Switch>
-
-                <Test />
 
                 {buttons && <Buttons buttons={buttons} user={user} />}
 

@@ -27,8 +27,10 @@ const ImageInput = ({ handleChange, preview, handleDelete }) => {
         <div className="imageInput">
             <div className="imageInput__images">
                 {preview &&
-                    preview.map((prev) => (
+                    preview.map((prev, index) => (
                         <img
+                            alt={`imagePreview-${index}`}
+                            key={`imgPreview-${index}`}
                             id={typeof prev === "string" ? prev : prev.name}
                             src={
                                 typeof prev === "string"
