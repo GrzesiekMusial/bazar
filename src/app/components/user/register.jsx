@@ -16,47 +16,54 @@ const Register = (props) => {
     const [load, setLoad] = useState(false);
     const [schema, setSchema] = useState(validationSchema);
 
-    const logins = [];
-    const emails = [];
+    const newSchema = (emails, logins) => {
+        const newSchema = Yup.object().shape({
+            email: Yup.string()
+                .trim()
+                .notOneOf(emails, "Email is already registered.")
+                .required("Podaj email.")
+                .label("Email")
+                .email(),
+            login: Yup.string()
+                .trim()
+                .notOneOf(logins, "That name is already taken.")
+                .required("Name required.")
+                .min(5)
+                .max(120)
+                .label("Login"),
+            password: Yup.string()
+                .min(6, "Password must be at least 6 characters")
+                .required("Password is required"),
+            confirmPassword: Yup.string()
+                .oneOf([Yup.ref("password"), null], "Passwords must match")
+                .required("Confirm Password is required"),
+        });
 
-    userBase.get().then((res) => checkUsers(res.data));
-
-    const checkUsers = (res) => {
-        try {
-            res.forEach((user) => {
-                logins.push(user.login);
-                emails.push(user.email);
-            });
-
-            const newSchema = Yup.object().shape({
-                email: Yup.string()
-                    .trim()
-                    .notOneOf(emails, "Email is already registered.")
-                    .required("Podaj email.")
-                    .label("Email")
-                    .email(),
-                login: Yup.string()
-                    .trim()
-                    .notOneOf(logins, "That name is already taken.")
-                    .required("Name required.")
-                    .min(5)
-                    .max(120)
-                    .label("Login"),
-                password: Yup.string()
-                    .min(6, "Password must be at least 6 characters")
-                    .required("Password is required"),
-                confirmPassword: Yup.string()
-                    .oneOf([Yup.ref("password"), null], "Passwords must match")
-                    .required("Confirm Password is required"),
-            });
-
-            setSchema(newSchema);
-        } catch (ex) {}
+        setSchema(newSchema);
     };
 
     useEffect(() => {
         title(config.headers.register);
     }, [title]);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await userBase.get();
+                const res = response.data;
+
+                const logins = [];
+                const emails = [];
+
+                res.forEach((user) => {
+                    logins.push(user.login);
+                    emails.push(user.email);
+                });
+                newSchema(emails, logins);
+            } catch (ex) {}
+        }
+        fetchData();
+    }, []);
 
     const handleRegister = async (user) => {
         setLoad(true);
