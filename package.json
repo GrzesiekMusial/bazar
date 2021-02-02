@@ -25,6 +25,7 @@
         "react-image-lightbox": "^5.1.1",
         "react-lazy-load-image-component": "^1.5.1",
         "react-multiple-image-input": "^1.0.0",
+        "react-ripples": "^2.2.1",
         "react-router-dom": "^5.2.0",
         "react-scripts": "4.0.1",
         "react-swipe-to-delete-component": "^0.5.5",
