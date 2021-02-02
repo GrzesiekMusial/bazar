@@ -1,23 +1,60 @@
-# Getting Started with Create React App
+![alt text](https://github.com/GrzesiekMusial/bazar/blob/main/public/images/logo.png?raw=true "Logo")
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# **BAZAR**
 
-## Available Scripts
+## AN APP FOR LOCAL COMMUNITY
 
-In the project directory, you can run:
+> App can be used by various communities to announce important things on the board, and also exchange/sell unuseful things.
+
+---
+
+##### DEMO: [ https://localbazarapp.herokuapp.com/](https://localbazarapp.herokuapp.com/)
+
+_Application same as server side are deployed on heroku. Please be patient when load a page._
+
+---
+
+### Tech:
+
+-   Made with React,
+-   Uses server side to store data in mongoDB,
+-   Images are stored in cloudinary service,
+-   built with support PWA in mind,
+-   Yup validation
+
+##### Still to be done:
+
+-   Edit user,
+-   Reset password,
+-   Comments,
+-   Expand contact methods,
+-   Push notifications (_unfortunately today Apple does not allow to use push noti. with PWA - from that reason i stop the project for a time_)
+
+### Development:
+
+App uses Gulp to concat SASS for fast developing.
+Use it to instantaneously see your updates.
+
+Please check src/app/config file to change language.
+Please check .env files to change environment variables.
+
+Task:
+
+```sh
+$ gulp cssTask
+```
+
+Watch:
+
+```sh
+$ gulp watchTask
+```
+
+### Script:
 
 ### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+-   Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ### `yarn build`
 
